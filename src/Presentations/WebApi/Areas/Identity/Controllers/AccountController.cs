@@ -8,7 +8,7 @@ namespace WebApi.Areas.Identity.Controllers
 {
     [ApiController]
     [Area("Identity")]
-    [Route("[controller]/[action]")]
+    [Route("[area]/[controller]/[action]")]
     public class AccountController : ControllerBase
     {
         #region Initialize
@@ -24,6 +24,7 @@ namespace WebApi.Areas.Identity.Controllers
         #endregion
 
         [HttpPost]
+        [Route("/[area]/[action]")]
         public async Task<ApiResult<object>> SignIn([FromBody] SignInDto signInParam)
         {
             var user = await userService.FindByIdentityAsync(signInParam.Username,
