@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Domain.Entities.Identity
+﻿namespace Domain.Entities.Identity
 {
-    public class User
+    public class User : BaseEntity
     {
         #region Constructors
         User() { }
@@ -46,6 +43,7 @@ namespace Domain.Entities.Identity
 
         #region Relation
         public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<UserPermission> Permissions { get; set; }
         #endregion
     }
 }
