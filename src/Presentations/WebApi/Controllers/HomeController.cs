@@ -7,7 +7,7 @@ namespace WebApi.Controllers
     [Route("[controller]/[action]")]
     public class HomeController : ControllerBase
     {
-
+        [HttpGet]
         public ApiResult<object> Index()
         {
             return Ok();

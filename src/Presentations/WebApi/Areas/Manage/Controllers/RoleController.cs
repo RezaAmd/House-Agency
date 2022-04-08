@@ -1,5 +1,4 @@
 ﻿using Application.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Areas.Manage.Controllers
@@ -16,22 +15,26 @@ namespace WebApi.Areas.Manage.Controllers
         }
         #endregion
 
+        [HttpGet]
         public ApiResult<object> GetAll(string search, int page = 1)
         {
             return Ok();
         }
 
+        [HttpPost]
         public ApiResult<object> Create()
         {
             return Ok();
         }
 
+        [HttpPost]
         public ApiResult<object> Edit()
         {
             return Ok();
         }
 
-        public ApiResult<object> Delete()
+        [HttpDelete("{id}")]
+        public ApiResult<object> Delete(string id)
         {
             return Ok();
         }
