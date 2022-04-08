@@ -37,7 +37,7 @@ namespace WebApi.Areas.Manage.Controllers
         //[Authorize(Roles = "CreateRole")]
         public async Task<ApiResult<object>> Create([FromBody] CreateRoleMDto model, CancellationToken cancellationToken = new())
         {
-            var newRole = new Role(model.name, model.title, model.description);
+            var newRole = new Role(model.Name, model.Title, model.Description);
             var result = await roleService.CreateAsync(newRole, cancellationToken);
             if (result.Succeeded)
                 return Ok(newRole.Id);
