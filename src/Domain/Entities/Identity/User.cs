@@ -20,6 +20,20 @@
 
             JoinedDate = DateTime.Now;
         }
+
+        public User(string username, string phoneNumber,
+            string email, string name, string surname, bool phoneNumberConfirmed, bool emailConfirmed)
+        {
+            Username = username;
+            NormalizedUsername = username.ToUpper();
+            PhoneNumber = phoneNumber;
+            PhoneNumberConfirmed = phoneNumberConfirmed;
+            Email = email;
+            EmailConfirmed = emailConfirmed;
+            Name = name;
+            Surname = surname;
+            JoinedDate = DateTime.Now;
+        }
         #endregion
 
 #nullable disable
