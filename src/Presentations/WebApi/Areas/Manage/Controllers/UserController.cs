@@ -8,7 +8,7 @@ namespace WebApi.Areas.Manage.Controllers
 {
     [ApiController]
     [Area("Manage")]
-    [Route("[controller]/[action]")]
+    [Route("[area]/[controller]/[action]")]
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : ControllerBase
     {
@@ -29,9 +29,9 @@ namespace WebApi.Areas.Manage.Controllers
         #endregion
 
         [HttpGet]
-        public async Task<ApiResult<object>> GetAll(string keyword, int page = 1, CancellationToken cancellationToken = new())
+        public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword = null, int page = 1, CancellationToken cancellationToken = new())
         {
-            int pageSize = 20;
+            int pageSize = 4;
             var users = await userService.GetAllAsync<UserThumbailMVM>(keyword: keyword, page: page, pageSize: pageSize, cancellationToken: cancellationToken);
             if (users.totalCount > 0)
                 return Ok(users);
@@ -43,7 +43,7 @@ namespace WebApi.Areas.Manage.Controllers
         {
             var user = await userService.FindByIdAsync(id);
             if (user != null)
-                return Ok(new UserThumbailMVM(user.Id, user.Username, user.PhoneNumber, user.Email, user.Name, user.Surname));
+                return Ok(new UserInfoMVM(user.Id, user.Username, user.PhoneNumber, user.JoinedDate, user.Email, user.Name, user.Surname));
             return NotFound("کاربر مورد نظر یافت نشد.");
         }
 
@@ -119,7 +119,7 @@ namespace WebApi.Areas.Manage.Controllers
             return NotFound("کاربر مورد نظر پیدا نشد.");
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ApiResult<object>> Delete([FromRoute] string id, CancellationToken cancellationToken)
         {
             var user = await userService.FindByIdAsync(id);

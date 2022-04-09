@@ -42,7 +42,7 @@ namespace Application.Dao
         /// <param name="tracking">For range changes.</param>
         /// <returns>List of all users</returns>
         Task<PaginatedList<TDestination>> GetAllAsync<TDestination>(TypeAdapterConfig config = null, int page = 1, int pageSize = 20,
-            bool withRoles = false, string keyword = default, bool tracking = false, CancellationToken cancellationToken = new CancellationToken());
+            bool withRoles = false, string? keyword = null, bool tracking = false, CancellationToken cancellationToken = new CancellationToken());
 
         /// <summary>
         /// Find user by identity (Username or Phone number or Email)

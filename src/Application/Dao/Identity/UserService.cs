@@ -100,8 +100,8 @@ namespace Application.Dao
                 init = init.AsNoTracking();
             // search
             if (!string.IsNullOrEmpty(keyword))
-                init = init.Where(u => keyword.Contains(u.Username) || keyword.Contains(u.Name)
-                 || keyword.Contains(u.Surname) || keyword.Contains(u.Email));
+                init = init.Where(u => u.Username.Contains(keyword) || u.Name.Contains(keyword)
+                 || u.Surname.Contains(keyword) || u.Email.Contains(keyword));
 
             // include roles
             if (withRoles)

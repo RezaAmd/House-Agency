@@ -14,6 +14,7 @@
 
         public User(string username, string phoneNumber)
         {
+            Id = Guid.NewGuid().ToString();
             Username = username;
             NormalizedUsername = username.ToUpper();
             PhoneNumber = phoneNumber;
@@ -24,6 +25,7 @@
         public User(string username, string phoneNumber,
             string email, string name, string surname, bool phoneNumberConfirmed, bool emailConfirmed)
         {
+            Id = Guid.NewGuid().ToString();
             Username = username;
             NormalizedUsername = username.ToUpper();
             PhoneNumber = phoneNumber;
