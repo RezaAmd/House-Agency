@@ -7,7 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="C:\Users\Reza\.nuget\packages\rest.service\1.0.4\contentFiles\any\net5.0\favicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="3.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.3" />
+    <PackageReference Include="Rest.Service" Version="1.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Persistence\Migrations\" />
   </ItemGroup>
 
 </Project>
