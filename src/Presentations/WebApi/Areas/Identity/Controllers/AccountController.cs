@@ -34,9 +34,10 @@ namespace WebApi.Areas.Identity.Controllers
                 var passwordValidation = userService.CheckPassword(user, signInParam.Password);
                 if (passwordValidation)
                 {
-                    var JwtBearer = signInService.GenerateJwtToken(user, DateTime.Now.AddHours(3));
+                    var expireDateTime = DateTime.Now.AddHours(3);
+                    var JwtBearer = signInService.GenerateJwtToken(user, expireDateTime);
                     if (JwtBearer.Status.Succeeded)
-                        return Ok(new SignInVM(JwtBearer.Token));
+                        return Ok(new SignInVM(JwtBearer.Token, expireDateTime.ToString("yyyy/MM/dd HH:mm:ss")));
                 }
             }
             return BadRequest("نام کاربری یا رمز ورود اشتباه است.");
