@@ -22,7 +22,7 @@ namespace Application.Dao
 
         #endregion
 
-        public async Task<PaginatedList<Role>> GetAllAsync(string keyword, int page = 1, int pageSize = 30,
+        public async Task<PaginatedList<Role>> GetAllAsync(string? keyword = null, int page = 1, int pageSize = 30,
             CancellationToken cancellationToken = new())
         {
             var roles = context.Roles.AsQueryable();

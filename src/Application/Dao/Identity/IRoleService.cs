@@ -1,13 +1,11 @@
 ﻿using Application.Models;
 using Domain.Entities.Identity;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Application.Dao
 {
     public interface IRoleService
     {
-        Task<PaginatedList<Role>> GetAllAsync(string keyword, int page = 1, int pageSize = 30,
+        Task<PaginatedList<Role>> GetAllAsync(string? keyword, int page = 1, int pageSize = 30,
             CancellationToken cancellationToken = new());
 
         Task<Role?> FindByIdAsync(string id, CancellationToken cancellationToken = new());
