@@ -1,4 +1,5 @@
 ﻿using Application.Dao;
+using Application.Extentions;
 using Application.Models;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,11 +32,21 @@ namespace WebApi.Areas.Manage.Controllers
         [HttpGet]
         public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword = null, int page = 1, CancellationToken cancellationToken = new())
         {
-            int pageSize = 4;
-            var users = await userService.GetAllAsync<UserThumbailMVM>(keyword: keyword, page: page, pageSize: pageSize, cancellationToken: cancellationToken);
-            if (users.totalCount > 0)
-                return Ok(users);
-            return NotFound(users);
+            int pageSize = 10;
+            try
+            {
+                var users = await userService.GetAllAsync<UserThumbailMVM>(keyword: keyword, page: page, pageSize: pageSize, cancellationToken: cancellationToken);
+                if (users.totalCount > 0)
+                    return Ok(users);
+                return NotFound(users);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return BadRequest();
         }
 
         [HttpGet("{id}")]
@@ -48,6 +59,7 @@ namespace WebApi.Areas.Manage.Controllers
         }
 
         [HttpPost]
+        [ModelStateValidator]
         //[Authorize(Roles = "CreateUser")]
         public async Task<ApiResult<object>> Create([FromBody] CreateUserMDto model, CancellationToken cancellationToken = new CancellationToken())
         {
@@ -66,7 +78,8 @@ namespace WebApi.Areas.Manage.Controllers
             return BadRequest(createUserResult.Errors);
         }
 
-        [HttpPost]
+        [HttpPost("{id}")]
+        [ModelStateValidator]
         //[Authorize(Roles = "UpdateUser")]
         public async Task<ApiResult<object>> Edit([FromRoute] string id, [FromBody] EditUserMDto model, CancellationToken cancellationToken)
         {
