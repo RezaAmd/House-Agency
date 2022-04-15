@@ -44,6 +44,12 @@ namespace WebApi.Areas.Manage.Controllers
             return BadRequest(result.Errors);
         }
 
+        [HttpPut("{id}")]
+        public ApiResult<object> Edit([FromRoute] string id, string name)
+        {
+            return Ok((id, name));
+        }
+
         [HttpDelete("{id}")]
         //[Authorize(Roles = "DeleteRole")]
         public async Task<ApiResult<object>> Delete([FromRoute] string id, CancellationToken cancellationToken = new())
