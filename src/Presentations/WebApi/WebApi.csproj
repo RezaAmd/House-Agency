@@ -5,6 +5,8 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<RepositoryUrl>https://github.com/RezaAmd/Real-Estate</RepositoryUrl>
+		<PackageTags>RealEstate</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>

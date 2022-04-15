@@ -31,13 +31,37 @@ namespace WebApi.Areas.Identity.Controllers
                 asNoTracking: false, withRoles: true, withPermissions: true);
             if (user != null)
             {
+                var result = new SignInVM();
+                result.User.username = user.Username;
+                result.User.name = user.Name;
+                result.User.surname = user.Surname;
+                result.User.roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();
+                #region map user
+
+                #endregion
                 var passwordValidation = userService.CheckPassword(user, signInParam.Password);
                 if (passwordValidation)
                 {
+                    #region Jwt Token
                     var expireDateTime = DateTime.Now.AddHours(3);
                     var JwtBearer = signInService.GenerateJwtToken(user, expireDateTime);
+                    #endregion
+
+                    #region Refresh Token
+                    var refreshTokenExpireDateTime = DateTime.Now.AddHours(3);
+                    var RefreshJwtBearer = signInService.GenerateJwtToken(user, expireDateTime);
+                    #endregion
+
                     if (JwtBearer.Status.Succeeded)
-                        return Ok(new SignInVM(JwtBearer.Token, expireDateTime.ToString("yyyy/MM/dd HH:mm:ss")));
+                    {
+                        result.Token = JwtBearer.Token;
+                        result.ExpireDate = expireDateTime.ToString("yyyy/MM/dd HH:mm:ss");
+
+                        result.RefreshToken = RefreshJwtBearer.Token;
+                        result.ExpireDate = refreshTokenExpireDateTime.ToString("yyyy/MM/dd HH:mm:ss");
+
+                        return Ok(result);
+                    }
                 }
             }
             return BadRequest("نام کاربری یا رمز ورود اشتباه است.");
