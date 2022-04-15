@@ -32,6 +32,7 @@ namespace WebApi.Areas.Identity.Controllers
             if (user != null)
             {
                 var result = new SignInVM();
+                result.User = new UserThumbailDetailVM();
                 result.User.username = user.Username;
                 result.User.name = user.Name;
                 result.User.surname = user.Surname;
