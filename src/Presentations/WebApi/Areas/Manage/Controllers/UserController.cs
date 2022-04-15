@@ -30,6 +30,7 @@ namespace WebApi.Areas.Manage.Controllers
         #endregion
 
         [HttpGet]
+        //[Authorize(Roles = "ReadUser")]
         public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword = null, int page = 1, CancellationToken cancellationToken = new())
         {
             int pageSize = 10;
@@ -50,6 +51,7 @@ namespace WebApi.Areas.Manage.Controllers
         }
 
         [HttpGet("{id}")]
+        //[Authorize(Roles = "ReadUser")]
         public async Task<ApiResult<object>> Get([FromRoute] string id)
         {
             var user = await userService.FindByIdAsync(id);
@@ -133,6 +135,7 @@ namespace WebApi.Areas.Manage.Controllers
         }
 
         [HttpDelete("{id}")]
+        //[Authorize(Roles = "DeleteUser")]
         public async Task<ApiResult<object>> Delete([FromRoute] string id, CancellationToken cancellationToken)
         {
             var user = await userService.FindByIdAsync(id);
