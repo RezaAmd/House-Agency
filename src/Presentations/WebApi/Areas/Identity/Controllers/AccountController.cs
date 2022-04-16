@@ -44,12 +44,12 @@ namespace WebApi.Areas.Identity.Controllers
                 if (passwordValidation)
                 {
                     #region Jwt Token
-                    var expireDateTime = DateTime.Now.AddHours(3);
+                    var expireDateTime = DateTime.Now.AddMinutes(30);
                     var JwtBearer = signInService.GenerateJwtToken(user, expireDateTime);
                     #endregion
 
                     #region Refresh Token
-                    var refreshTokenExpireDateTime = DateTime.Now.AddHours(3);
+                    var refreshTokenExpireDateTime = DateTime.Now.AddHours(1);
                     var RefreshJwtBearer = signInService.GenerateJwtToken(user, expireDateTime);
                     #endregion
 
@@ -59,7 +59,7 @@ namespace WebApi.Areas.Identity.Controllers
                         result.ExpireDate = expireDateTime.ToString("yyyy/MM/dd HH:mm:ss");
 
                         result.RefreshToken = RefreshJwtBearer.Token;
-                        result.ExpireDate = refreshTokenExpireDateTime.ToString("yyyy/MM/dd HH:mm:ss");
+                        result.RefreshTokenExpireDate = refreshTokenExpireDateTime.ToString("yyyy/MM/dd HH:mm:ss");
 
                         return Ok(result);
                     }

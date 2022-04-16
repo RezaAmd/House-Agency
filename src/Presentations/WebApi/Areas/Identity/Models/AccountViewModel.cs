@@ -22,8 +22,10 @@
     public class UserThumbailDetailVM
     {
         public string username { get; set; }
-        public string name { get; set; }
-        public string surname { get; set; }
+#nullable enable
+        public string? name { get; set; }
+        public string? surname { get; set; }
+#nullable disable
         public List<string> roles { get; set; }
     }
 }
