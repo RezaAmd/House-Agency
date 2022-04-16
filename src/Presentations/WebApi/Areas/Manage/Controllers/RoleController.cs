@@ -25,8 +25,8 @@ namespace WebApi.Areas.Manage.Controllers
         //[Authorize(Roles = "ReadRole")]
         public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword, int page = 1, CancellationToken cancellationToken = new())
         {
-            int pageSize = 30;
-            var roles = await roleService.GetAllAsync(keyword, page, pageSize, cancellationToken);
+            int pageSize = 10;
+            var roles = await roleService.GetAllAsync<RoleThumbailMVM>(keyword, page, pageSize, cancellationToken);
             if (roles.items.Count > 0)
                 return Ok(roles);
             return NotFound(roles);
@@ -54,15 +54,23 @@ namespace WebApi.Areas.Manage.Controllers
         //[Authorize(Roles = "DeleteRole")]
         public async Task<ApiResult<object>> Delete([FromRoute] string id, CancellationToken cancellationToken = new())
         {
-            var role = await roleService.FindByIdAsync(id);
-            if (role != null)
+            try
             {
-                var deleteResult = await roleService.DeleteAsync(role, cancellationToken);
-                if (deleteResult.Succeeded)
-                    return Ok($"مجوز {role.Name} با موفقیت حذف شد.");
-                return BadRequest(deleteResult.Errors);
+                var role = await roleService.FindByIdAsync(id, cancellationToken);
+                if (role != null)
+                {
+                    var deleteResult = await roleService.DeleteAsync(role, cancellationToken);
+                    if (deleteResult.Succeeded)
+                        return Ok($"مجوز {role.Name} با موفقیت حذف شد.");
+                    return BadRequest(deleteResult.Errors);
+                }
+                return NotFound("مجوز مورد نظر پیدا نشد.");
             }
-            return NotFound("مجوز مورد نظر پیدا نشد.");
+            catch (Exception ex)
+            {
+                return BadRequest("درخواست با خطا مواجه شد.");
+                throw;
+            }
         }
     }
 }
