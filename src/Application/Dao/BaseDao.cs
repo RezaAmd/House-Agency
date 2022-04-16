@@ -2,9 +2,6 @@
 using Application.Models;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Application.Dao
 {
@@ -22,7 +19,7 @@ namespace Application.Dao
 
         public async Task<TEntity?> FindByIdAsync(TKey id, CancellationToken cancellationToken = new())
         {
-            return await entities.FindAsync(id, cancellationToken);
+            return await entities.FindAsync(new object[] { id }, cancellationToken);
         }
 
         public async Task<Result> CreateAsync(TEntity entry, CancellationToken cancellationToken = new CancellationToken())
