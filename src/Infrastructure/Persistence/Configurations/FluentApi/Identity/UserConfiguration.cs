@@ -10,6 +10,13 @@ namespace Infrastructure.Persistence.Configurations.FluentApi.Identity
         {
             b.ToTable("Users");
 
+            b.HasIndex(e => e.Username)
+                .IsUnique();
+
+            b.Property(e => e.Username)
+                .IsRequired()
+                .HasMaxLength(30);
+
             b.Property(e => e.Name)
                 .HasMaxLength(25);
 
