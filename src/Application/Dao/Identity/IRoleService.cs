@@ -1,12 +1,13 @@
 ﻿using Application.Models;
 using Domain.Entities.Identity;
+using Mapster;
 
 namespace Application.Dao
 {
     public interface IRoleService
     {
-        Task<PaginatedList<Role>> GetAllAsync(string? keyword, int page = 1, int pageSize = 30,
-            CancellationToken cancellationToken = new());
+        Task<PaginatedList<TDestination>> GetAllAsync<TDestination>(string? keyword, int page = 1, int pageSize = 30,
+            CancellationToken cancellationToken = new(), TypeAdapterConfig? config = null);
 
         Task<Role?> FindByIdAsync(string id, CancellationToken cancellationToken = new());
 

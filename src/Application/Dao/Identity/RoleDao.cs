@@ -2,6 +2,7 @@
 using Application.Interfaces.Context;
 using Application.Models;
 using Domain.Entities.Identity;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Dao
@@ -22,8 +23,8 @@ namespace Application.Dao
 
         #endregion
 
-        public async Task<PaginatedList<Role>> GetAllAsync(string? keyword = null, int page = 1, int pageSize = 30,
-            CancellationToken cancellationToken = new())
+        public async Task<PaginatedList<TDestination>> GetAllAsync<TDestination>(string? keyword = null, int page = 1, int pageSize = 30,
+            CancellationToken cancellationToken = new(), TypeAdapterConfig? config = null)
         {
             var roles = context.Roles.AsQueryable();
             #region Filter
@@ -33,7 +34,9 @@ namespace Application.Dao
                 || x.Title.Contains(keyword)
                 || x.Description.Contains(keyword));
             #endregion
-            return await roles.PaginatedListAsync(page, pageSize, cancellationToken);
+            return await roles
+                .ProjectToType<TDestination>(config)
+                .PaginatedListAsync(page, pageSize, cancellationToken);
         }
 
         public async Task<Result> CreateRangeAsync(List<Role> roles)
