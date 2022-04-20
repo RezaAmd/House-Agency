@@ -56,7 +56,7 @@ namespace WebApi.Areas.Manage.Controllers
         {
             var user = await userService.FindByIdAsync(id);
             if (user != null)
-                return Ok(new UserInfoMVM(user.Id, user.Username, user.PhoneNumber, user.JoinedDate, user.Email, user.Name, user.Surname));
+                return Ok(new UserInfoMVM(user.Id, user.Username, user.PhoneNumber, user.CreatedDateTime, user.Email, user.Name, user.Surname));
             return NotFound("کاربر مورد نظر یافت نشد.");
         }
 

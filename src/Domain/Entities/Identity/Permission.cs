@@ -11,13 +11,11 @@
             Name = name;
             Title = title;
             Description = description;
-            CreatedDate = DateTime.Now;
         }
         #endregion
 
         public string Id { get; set; }
         public string Name { get; set; } // Unique name.
-        public DateTime CreatedDate { get; set; }
 #nullable enable
         public string? Title { get; set; }
         public string? Description { get; set; }
