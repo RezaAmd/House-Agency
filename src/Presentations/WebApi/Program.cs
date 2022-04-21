@@ -12,6 +12,7 @@ builder.Services.AddCors(options =>
     {
         policy.AllowAnyHeader()
             .AllowAnyMethod()
+            .WithOrigins("*", "http://localhost:3000")
             .SetIsOriginAllowed(_ => true)
             .AllowCredentials()
             .WithMethods("GET", "PUT", "DELETE", "POST", "PATCH"); //not really necessary when AllowAnyMethods is used.;
