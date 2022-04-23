@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.Context;
+using Domain.Entities;
 using Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -20,6 +21,8 @@ namespace Infrastructure.Persistence.Context
         public virtual DbSet<UserPermission> UserPermissions { get; set; }
         public virtual DbSet<PermissionRole> PermissionRoles { get; set; }
         #endregion
+
+        public virtual DbSet<Region> Regions { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
