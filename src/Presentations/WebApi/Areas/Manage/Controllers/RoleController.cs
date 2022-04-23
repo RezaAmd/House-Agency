@@ -12,7 +12,7 @@ namespace WebApi.Areas.Manage.Controllers
     [Route("[controller]/[action]")]
     public class RoleController : ControllerBase
     {
-        #region Constructor
+        #region Dependency Injection
         private readonly IRoleService roleService;
 
         public RoleController(IRoleService _roleService)

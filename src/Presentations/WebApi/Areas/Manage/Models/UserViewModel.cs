@@ -1,4 +1,7 @@
-﻿namespace WebApi.Areas.Manage.Models
+﻿using Domain.Entities.Identity;
+using Mapster;
+
+namespace WebApi.Areas.Manage.Models
 {
     public class CreateUserMVM
     {
@@ -28,6 +31,12 @@
         public string? Email { get; set; }
         public string? Name { get; set; }
         public string? Surname { get; set; }
+
+        //public static TypeAdapterConfig MapConfig()
+        //{
+        //    return TypeAdapterConfig<User, UserThumbailMVM>.NewConfig()
+        //        .Map(dest => dest.Scores, src => src.ClubTransactions.OrderBy(x => x.DateTime).Select(ct => ct.CurrentScore).LastOrDefault()).Config;
+        //}
     }
 
     public class UserInfoMVM
