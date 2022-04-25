@@ -5,11 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Dao
 {
-    public class BaseDao<TEntity, TKey> where TEntity : BaseEntity
+    public class BaseDao<TEntity, TKey> : IBaseDao<TEntity, TKey> where TEntity : BaseEntity
     {
-        #region DI
+        #region Dependency Injection
         private readonly IDbContext context;
-        private readonly DbSet<TEntity> entities;
+        private DbSet<TEntity> entities;
+
         public BaseDao(IDbContext _context)
         {
             context = _context;
@@ -44,6 +45,26 @@ namespace Application.Dao
             if (Convert.ToBoolean(await context.SaveChangesAsync(cancellationToken)))
                 return Result.Success;
             return Result.Failed();
+        }
+
+        public virtual IQueryable<TEntity> Table
+        {
+            get
+            {
+                return this.Entities;
+            }
+        }
+
+        public DbSet<TEntity> Entities
+        {
+            get
+            {
+                if (this.entities == null)
+                {
+                    entities = context.Set<TEntity>();
+                }
+                return entities;
+            }
         }
     }
 }
