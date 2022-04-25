@@ -1,32 +1,17 @@
 ﻿using Application.Extentions;
 using Application.Interfaces.Context;
-using Application.Interfaces.Identity;
 using Application.Models;
 using Domain.Entities.Identity;
 using Domain.Enums;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Application.Dao
 {
     public class UserService : IUserService
     {
         #region Constructor
-        //private readonly IUserStore<User> store;
-        //private readonly IOptions<IdentityOptions> options;
-        //private readonly IPasswordHasher<User> passwordHasher;
-        //private readonly IEnumerable<IUserValidator<User>> userValidators;
-        //private readonly IEnumerable<IPasswordValidator<User>> passwordValidators;
-        //private readonly ILookupNormalizer normalizer;
-        //private readonly ErrorDescriber errors;
-        //private readonly IServiceProvider serviceProvider;
-        //private readonly ILogger<UserManager<User>> logger;
-        //private readonly IJwtService jwtService;
         private readonly string passwordEncryptionSalt = "950922";
         private readonly IDbContext context;
 
@@ -39,7 +24,7 @@ namespace Application.Dao
         public async Task<User?> FindByIdAsync(string id, CancellationToken cancellationToken = new())
         {
             return await context.Users
-                .Include(x=>x.Permissions)
+                .Include(x => x.Permissions)
                 .Where(u => u.Id == id).FirstOrDefaultAsync(cancellationToken);
         }
 
@@ -79,7 +64,7 @@ namespace Application.Dao
         public async Task<Result> DeleteAsync(User user, CancellationToken cancellationToken = new CancellationToken())
         {
             context.Users.Remove(user);
-            if(Convert.ToBoolean(await context.SaveChangesAsync(cancellationToken)))
+            if (Convert.ToBoolean(await context.SaveChangesAsync(cancellationToken)))
                 return Result.Success;
             return Result.Failed();
         }
