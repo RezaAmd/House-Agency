@@ -20,7 +20,8 @@ namespace Application
             #region DAO Services
             services.AddScoped<IUserService, UserService>()
                 .AddScoped<IRoleService, RoleDao>()
-                .AddScoped<IPermissionService, PermissionDao>();
+                .AddScoped<IPermissionService, PermissionDao>()
+                .AddScoped<IRegionDao, RegionDao>();
             #endregion
 
             return services;

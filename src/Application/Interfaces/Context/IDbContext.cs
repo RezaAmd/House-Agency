@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Identity;
+﻿using Domain.Entities;
+using Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Interfaces.Context
@@ -11,5 +12,7 @@ namespace Application.Interfaces.Context
         DbSet<User> Users { get; set; }
         DbSet<Role> Roles { get; set; }
         DbSet<Permission> Permissions { get; set; }
+
+        DbSet<Region> Regions { get; set; }
     }
 }
