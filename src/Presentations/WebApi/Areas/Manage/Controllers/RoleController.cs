@@ -9,7 +9,7 @@ namespace WebApi.Areas.Manage.Controllers
 {
     [ApiController]
     [Area("Manage")]
-    [Route("[controller]/[action]")]
+    [Route("[area]/[controller]/[action]")]
     public class RoleController : ControllerBase
     {
         #region Dependency Injection
@@ -40,7 +40,7 @@ namespace WebApi.Areas.Manage.Controllers
             var newRole = new Role(model.Name, model.Title, model.Description);
             var result = await roleService.CreateAsync(newRole, cancellationToken);
             if (result.Succeeded)
-                return Ok(newRole.Id);
+                return Ok(new CreateRoleMVM(newRole.Id));
             return BadRequest(result.Errors);
         }
 
