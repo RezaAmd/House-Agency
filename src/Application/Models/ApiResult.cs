@@ -2,22 +2,20 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace Application.Models
 {
     public class ApiResult
     {
-        public ApiResultStatusCode StatusCode { get; set; }
+        public ApiResultStatusCode Status { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<string> Message { get; set; }
 
         public ApiResult(ApiResultStatusCode statusCode, List<string> message = null)
         {
-            StatusCode = statusCode;
+            Status = statusCode;
             Message = message ?? statusCode.ToDisplays();
         }
 

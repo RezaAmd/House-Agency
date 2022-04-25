@@ -1,5 +1,8 @@
 using Application;
+using Application.Extentions;
+using Application.Models;
 using Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -24,7 +27,21 @@ builder.Services.AddLogicServices();
 builder.Services.AddInfrastructure();
 //builder.Services.AddNotifications();
 builder.Services.AddJwtAuthentication();
-builder.Services.AddControllers();
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options => {
+    options.SuppressModelStateInvalidFilter = false;
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var problemDetails = new ValidationProblemDetails(context.ModelState)
+        {
+            Title = null,
+            Instance = null
+        };
+        return new BadRequestObjectResult(problemDetails)
+        {
+            ContentTypes = { "application/problem+json" }
+        };
+    };
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -38,9 +55,10 @@ if (app.Environment.IsDevelopment())
     //app.UseSwagger();
 
 }
+app.ConfigureExceptionHandler(app.Environment.IsDevelopment());
+
 app.UseSwagger();
 app.UseSwaggerUI();
-
 app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
