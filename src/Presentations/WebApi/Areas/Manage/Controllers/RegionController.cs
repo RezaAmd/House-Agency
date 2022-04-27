@@ -26,12 +26,11 @@ namespace WebApi.Areas.Manage.Controllers
         public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword, int page = 1, CancellationToken cancellationToken = new())
         {
             var regions = await regionDao.GetProvinces(true, cancellationToken);
-            return Ok(regions);
-            //if (regions.totalCount > 0)
-            //{
-            //    return Ok(regions);
-            //}
-            //return NotFound(regions);
+            if (regions.Count > 0)
+            {
+                return Ok(regions);
+            }
+            return NotFound(regions);
         }
 
         [HttpPost]
