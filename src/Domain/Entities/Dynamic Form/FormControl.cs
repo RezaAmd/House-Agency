@@ -15,6 +15,6 @@ namespace Domain.Entities.Dynamic_Form
 
         [ForeignKey("Control")]
         public string ControlId { get; set; }
-        public virtual ControlSignature Control { get; set; }
+        public virtual FieldSignature FieldType { get; set; }
     }
 }

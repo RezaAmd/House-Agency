@@ -2,7 +2,7 @@
 
 namespace Domain.Entities.Dynamic_Form
 {
-    public class ControlSignature
+    public class FieldSignature
     {
         public string Id { get; set; }
         public string Name { get; set; }
