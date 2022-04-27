@@ -3,6 +3,7 @@ using Application.Extentions;
 using Application.Models;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -27,7 +28,11 @@ builder.Services.AddLogicServices();
 builder.Services.AddInfrastructure();
 //builder.Services.AddNotifications();
 builder.Services.AddJwtAuthentication();
-builder.Services.AddControllers().ConfigureApiBehaviorOptions(options => {
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options => {
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+    })
+    .ConfigureApiBehaviorOptions(options => {
     options.SuppressModelStateInvalidFilter = false;
     options.InvalidModelStateResponseFactory = context =>
     {
