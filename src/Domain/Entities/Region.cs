@@ -22,5 +22,7 @@ namespace Domain.Entities
         [ForeignKey("Parent")]
         public long? ParentId { get; set; }
         public virtual Region Parent { get; set; }
+
+        public virtual ICollection<Region> Children { get; set; }
     }
 }

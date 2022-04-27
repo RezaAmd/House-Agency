@@ -2,6 +2,7 @@
 using Application.Interfaces.Context;
 using Application.Models;
 using Domain.Entities;
+using Domain.Enums;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,7 +34,20 @@ namespace Application.Dao
             return await init
                 .ProjectToType<TDestination>(config)
                 .PaginatedListAsync(page, pageSize, cancellationToken);
+        }
 
+        public async Task<List<Region>> GetProvinces(bool withChildren = false,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            var initRegions = context.Regions.Where(r => r.Type == RegionType.Province)
+                .OrderBy(r => r.Name).AsQueryable();
+
+            if (withChildren)
+            {
+                initRegions.Include(r => r.Children);
+            }
+
+            return await initRegions.ToListAsync(cancellationToken);
         }
     }
 }

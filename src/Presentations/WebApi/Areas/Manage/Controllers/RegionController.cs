@@ -25,12 +25,13 @@ namespace WebApi.Areas.Manage.Controllers
         [HttpGet]
         public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword, int page = 1, CancellationToken cancellationToken = new())
         {
-            var regions = await regionDao.GetAllAsync<RegionMVM>(page, 20, keyword);
-            if (regions.totalCount > 0)
-            {
-                return Ok(regions);
-            }
-            return NotFound(regions);
+            var regions = await regionDao.GetProvinces(true, cancellationToken);
+            return Ok(regions);
+            //if (regions.totalCount > 0)
+            //{
+            //    return Ok(regions);
+            //}
+            //return NotFound(regions);
         }
 
         [HttpPost]
