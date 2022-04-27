@@ -16,16 +16,17 @@ namespace Domain.Entities
         public string Id { get; set; }
         public string Title { get; set; }
         public int Meter { get; set; }
-        public DateTime? ConstructionDateTime { get; set; }
+        public DateTime? ConstructionDateTime { get; set; } //
         public string? Description { get; set; }
-        public bool IsAvailable { get; set; }
-        public PossessionState state { get; set; }
-
-        public DateTime PublishedDateTime { get; set; }
+        public PossessionType Type { get; set; }
+        public TransactionType TransactionType { get; set; }
+        public PossessionState State { get; set; }
 
         [ForeignKey("PublishedBy")]
         public string PublishedById { get; set; }
         public virtual User PublishedBy { get; set; }
+        public DateTime PublishedDateTime { get; set; }
+
 
         [ForeignKey("Adviser")]
         public string? AdviserId { get; set; }
