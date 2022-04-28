@@ -12,6 +12,8 @@ namespace Domain.Entities
         public string? Placeholder { get; set; }
         public FieldType Type { get; set; }
         public int DisplayOrder { get; set; }
+        public long Min { get; set; } // Minimum length - Minimum number.
+        public long Max { get; set; } // Maximum length - Maximum number.
         public string? JsonOption { get; set; }
         public bool IsRequired { get; set; }
     }
