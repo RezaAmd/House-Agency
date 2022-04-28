@@ -1,6 +1,7 @@
 ﻿using Application.Dao;
 using Application.Interfaces.Identity;
 using Application.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Areas.Identity.Models;
 
@@ -9,6 +10,7 @@ namespace WebApi.Areas.Identity.Controllers
     [ApiController]
     [Area("Identity")]
     [Route("[area]/[controller]/[action]")]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         #region Initialize
@@ -24,6 +26,7 @@ namespace WebApi.Areas.Identity.Controllers
         #endregion
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("/[area]/[action]")]
         public async Task<ApiResult<object>> SignIn([FromBody] SignInDto signInParam)
         {
@@ -66,6 +69,23 @@ namespace WebApi.Areas.Identity.Controllers
                 }
             }
             return BadRequest("نام کاربری یا رمز ورود اشتباه است.");
+        }
+
+        [HttpGet]
+        public async Task<ApiResult<object>> Info()
+        {
+            string currentUserId = "";
+            if (currentUserId != null)
+            {
+                var user = await userService.FindByIdAsync(currentUserId);
+                if (user != null)
+                {
+
+                    return Ok(user);
+                }
+                return NotFound();
+            }
+            return BadRequest();
         }
     }
 }
