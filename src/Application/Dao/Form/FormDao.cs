@@ -3,7 +3,7 @@ using Domain.Entities;
 
 namespace Application.Dao
 {
-    public class FormDao : BaseDao<Form, long>
+    public class FormDao : BaseDao<Form, long>, IFormDao
     {
         #region Dependency Injection
         private readonly IDbContext context;

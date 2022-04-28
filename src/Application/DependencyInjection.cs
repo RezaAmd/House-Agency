@@ -1,6 +1,7 @@
 ﻿using Application.Dao;
 using Application.Interfaces.Identity;
 using Application.Models;
+using Application.Services;
 using Application.Services.Identity;
 using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,14 +15,20 @@ namespace Application
             // Service Life Time
             services.AddScoped<ErrorDescriber>()
                 .AddHttpContextAccessor()
-                .AddScoped<ISignInService, SignInService>()
                 .AddTransient<IMapper, Mapper>();
 
             #region DAO Services
             services.AddScoped<IUserService, UserService>()
                 .AddScoped<IRoleService, RoleDao>()
                 .AddScoped<IPermissionService, PermissionDao>()
-                .AddScoped<IRegionDao, RegionDao>();
+                .AddScoped<IRegionDao, RegionDao>()
+                .AddScoped<IFormDao, FormDao>()
+                .AddScoped<IControlDao, ControlDao>();
+            #endregion
+
+            #region Business Services
+            services.AddScoped<ISignInService, SignInService>()
+                .AddScoped<IFormService, FormService>();
             #endregion
 
             return services;
