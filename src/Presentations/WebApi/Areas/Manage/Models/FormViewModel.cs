@@ -14,6 +14,12 @@ namespace WebApi.Areas.Manage.Models
     public class CreateControlMDAO
     {
         public string Name { get; set; }
+        public string Label { get; set; }
+        public FieldType Type { get; set; }
+        public string? Placeholder { get; set; }
+        public int Priority { get; set; }
+        public string? JsonOption { get; set; }
+        public bool IsRequired { get; set; }
     }
     #endregion
 }
