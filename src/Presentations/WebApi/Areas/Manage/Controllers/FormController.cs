@@ -22,10 +22,10 @@ namespace WebApi.Areas.Manage.Controllers
 
         #region Form
         [HttpGet]
-        public async Task<ApiResult<object>> GetAll([FromQuery] string keyword, int page = 1, CancellationToken cancellationToken = new())
+        public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword = null, [FromQuery] PaginationParameter? pagination = null, CancellationToken cancellationToken = new())
         {
 
-            return NotFound();
+            return Ok(pagination);
         }
 
         [HttpPost]
@@ -51,7 +51,7 @@ namespace WebApi.Areas.Manage.Controllers
 
         #region Control
         [HttpGet]
-        public async Task<ApiResult<object>> GetAllControls(string formId, int page = 1, CancellationToken cancellationToken = new())
+        public async Task<ApiResult<object>> GetAllControls(string formId, [FromQuery] PaginationParameter? pagination = null, CancellationToken cancellationToken = new())
         {
             // TODO: Get all controls / get all form controls.
 

@@ -31,12 +31,13 @@ namespace WebApi.Areas.Manage.Controllers
 
         [HttpGet]
         //[Authorize(Roles = "ReadUser")]
-        public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword = null, int page = 1, CancellationToken cancellationToken = new())
+        public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword = null, [FromQuery] PaginationParameter pagination = default,
+            CancellationToken cancellationToken = new())
         {
             int pageSize = 10;
             try
             {
-                var users = await userService.GetAllAsync<UserThumbailMVM>(keyword: keyword, page: page, pageSize: pageSize, cancellationToken: cancellationToken);
+                var users = await userService.GetAllAsync<UserThumbailMVM>(keyword: keyword, page: pagination.Page, pageSize: pageSize, cancellationToken: cancellationToken);
                 if (users.totalCount > 0)
                     return Ok(users);
                 return NotFound(users);

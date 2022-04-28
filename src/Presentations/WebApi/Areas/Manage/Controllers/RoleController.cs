@@ -23,10 +23,11 @@ namespace WebApi.Areas.Manage.Controllers
 
         [HttpGet]
         //[Authorize(Roles = "ReadRole")]
-        public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword, int page = 1, CancellationToken cancellationToken = new())
+        public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword, [FromQuery] PaginationParameter pagination = default,
+            CancellationToken cancellationToken = new())
         {
             int pageSize = 10;
-            var roles = await roleService.GetAllAsync<RoleThumbailMVM>(keyword, page, pageSize, cancellationToken);
+            var roles = await roleService.GetAllAsync<RoleThumbailMVM>(keyword, pagination.Page, pageSize, cancellationToken);
             if (roles.items.Count > 0)
                 return Ok(roles);
             return NotFound(roles);

@@ -23,7 +23,8 @@ namespace WebApi.Areas.Manage.Controllers
         #endregion
 
         [HttpGet]
-        public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword, int page = 1, CancellationToken cancellationToken = new())
+        public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword, [FromQuery] PaginationParameter pagination = default,
+            CancellationToken cancellationToken = new())
         {
             var regions = await regionDao.GetProvinces(true, cancellationToken);
             if (regions.Count > 0)
