@@ -3,6 +3,7 @@ using Application.Interfaces.Identity;
 using Application.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebApi.Areas.Identity.Models;
 
 namespace WebApi.Areas.Identity.Controllers
@@ -74,7 +75,7 @@ namespace WebApi.Areas.Identity.Controllers
         [HttpGet]
         public async Task<ApiResult<object>> Info()
         {
-            string currentUserId = "";
+            string? currentUserId = User.GetCurrentUserId();
             if (currentUserId != null)
             {
                 var user = await userService.FindByIdAsync(currentUserId);
@@ -86,6 +87,43 @@ namespace WebApi.Areas.Identity.Controllers
                 return NotFound();
             }
             return BadRequest();
+        }
+
+        [HttpPatch]
+        public async Task<ApiResult<object>> Update([FromBody] UpdateProfileDto model)
+        {
+            string? currentUserId = User.GetCurrentUserId();
+            if (currentUserId != null)
+            {
+                var user = await userService.FindByIdAsync(currentUserId);
+                if (user != null)
+                {
+                    if (user.Name != model.Name)
+                    {
+                        user.Name = model.Name;
+                    }
+                    if (user.Surname != model.Surname)
+                    {
+                        user.Surname = model.Surname;
+                    }
+                    if (user.Email != model.Email)
+                    {
+                        user.Email = model.Email;
+                        user.EmailConfirmed = false;
+                    }
+                    if (user.PhoneNumber != model.PhoneNumber)
+                    {
+                        user.PhoneNumber = model.PhoneNumber;
+                        user.PhoneNumberConfirmed = false;
+                    }
+                    var updateUserResult = await userService.UpdateAsync(user);
+                    if (updateUserResult.Succeeded)
+                        return Ok(user);
+                    return BadRequest(updateUserResult.Errors);
+                }
+                return NotFound("User not found!");
+            }
+            return NotFound("Current user id not found!");
         }
     }
 }
