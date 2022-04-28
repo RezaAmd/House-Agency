@@ -2,7 +2,7 @@
 
 namespace Domain.Entities
 {
-    public class FormControl
+    public class FormControl : BaseEntity
     {
         [ForeignKey("Form")]
         public string FormId { get; set; }

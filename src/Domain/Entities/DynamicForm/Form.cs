@@ -2,7 +2,7 @@
 
 namespace Domain.Entities
 {
-    public class Form
+    public class Form : BaseEntity
     {
         [Key]
         public string Id { get; set; }

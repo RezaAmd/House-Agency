@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
-    public class Possession
+    public class Possession : BaseEntity
     {
         #region Constructors
         public Possession()
