@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Entities\DynamicForm\FormControlData.cs~RF4296609e.TMP" />
+  </ItemGroup>
+
 </Project>

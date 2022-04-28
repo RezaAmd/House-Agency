@@ -1,6 +1,6 @@
-﻿namespace Domain.Enums.Dynamic_Form
+﻿namespace Domain.Enums
 {
-    public enum ControlSignatureType
+    public enum FieldType
     {
         Text,
         Number,
