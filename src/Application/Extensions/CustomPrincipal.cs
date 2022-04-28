@@ -2,9 +2,9 @@
 {
     public static class CustomPrincipal
     {
-        public static string GetCurrentWalletId(this ClaimsPrincipal claims)
+        public static string? GetCurrentUserId(this ClaimsPrincipal claims)
         {
-            return claims.FindFirst("wallet-id").Value;
+            return claims.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
     }
 }
