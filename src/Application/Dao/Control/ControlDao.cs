@@ -3,7 +3,7 @@ using Domain.Entities;
 
 namespace Application.Dao
 {
-    public class ControlDao : BaseDao<Control, long>
+    public class ControlDao : BaseDao<Control, string>, IControlDao
     {
         #region Dependency Injection
         private readonly IDbContext context;

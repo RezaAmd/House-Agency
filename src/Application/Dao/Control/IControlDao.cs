@@ -2,7 +2,7 @@
 
 namespace Application.Dao
 {
-    internal interface IControlDao : IBaseDao<Control, string>
+    public interface IControlDao : IBaseDao<Control, string>
     {
 
     }
