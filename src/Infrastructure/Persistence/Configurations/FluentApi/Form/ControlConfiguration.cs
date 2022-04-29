@@ -22,7 +22,7 @@ namespace Infrastructure.Persistence.Configurations.FluentApi
 
             // Each User can have many entries in the UserRole join table
             b.HasMany(e => e.FormControls)
-                .WithOne(e => e.Form);
+                .WithOne(e => e.Control);
         }
     }
 }
