@@ -161,25 +161,61 @@ namespace WebApi.Areas.Manage.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ApiResult<object>> AssignRole([FromRoute] string id, [FromBody] List<string> rolesId,
+        public async Task<ApiResult<object>> AssignRoles([FromRoute] string id, [FromBody] List<string> rolesId,
             CancellationToken cancellationToken)
         {
             var user = await userService.FindByIdAsync(id, withRoles: true, cancellationToken: cancellationToken);
             if (user != null)
             {
-                var newRoles = new List<UserRole>();
-
+                bool assigned = false;
                 foreach (var roleId in rolesId)
                 {
-                    if (!user.UserRoles.Any(userRole => userRole.Role.Name == roleId))
+                    if (!user.UserRoles.Any(userRole => userRole.RoleId == roleId))
                     {
-                        newRoles.Add(new UserRole(user.Id, roleId));
+                        assigned = true;
+                        user.UserRoles.Add(new UserRole(user.Id, roleId));
                     }
                 }
-                return Ok();
+                if (assigned)
+                {
+                    var updateResult = await userService.UpdateAsync(user, cancellationToken);
+                    if (updateResult.Succeeded)
+                        return Ok($"نقش ها با موفقیت به کاربر '{user.Name}' اضافه شدند!");
+                    return BadRequest("افزودن نقش با خطا مواجه شد.");
+                }
+                return Ok("هیچ نقشی به کاربر اضافه نشد. شاید نقش ها تکراری بودند!");
             }
             else
-                return NotFound();
+                return NotFound("کاربر مورد نظر یافت نشد.");
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<ApiResult<object>> UnAssignRoles([FromRoute] string id, [FromBody] List<string> rolesId,
+            CancellationToken cancellationToken)
+        {
+            var user = await userService.FindByIdAsync(id, withRoles: true, cancellationToken: cancellationToken);
+            if (user != null)
+            {
+                bool removedAnyRole = false;
+                foreach (var roleId in rolesId)
+                {
+                    var userRole = user.UserRoles.FirstOrDefault(ur => ur.RoleId == roleId);
+                    if (userRole != null)
+                    {
+                        removedAnyRole = true;
+                        user.UserRoles.Remove(userRole);
+                    }
+                }
+                if (removedAnyRole)
+                {
+                    var updateResult = await userService.UpdateAsync(user, cancellationToken);
+                    if (updateResult.Succeeded)
+                        return Ok($"نقش ها با موفقیت از کاربر '{user.Name}' حذف شدند.");
+                }
+                else
+                    return NotFound("نقش های انتخاب شده، به کاربر مرتبط نیستند!");
+            }
+            return NotFound();
         }
     }
 }
