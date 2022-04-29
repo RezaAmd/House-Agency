@@ -53,11 +53,21 @@ namespace WebApi.Areas.Manage.Controllers
 
         [HttpGet("{id}")]
         //[Authorize(Roles = "ReadUser")]
-        public async Task<ApiResult<object>> Get([FromRoute] string id)
+        public async Task<ApiResult<object>> Get([FromRoute] string id, CancellationToken cancellationToken = new())
         {
-            var user = await userService.FindByIdAsync(id);
+            var user = await userService.FindByIdAsync(id, withRoles: true, cancellationToken: cancellationToken);
             if (user != null)
-                return Ok(new UserInfoMVM(user.Id, user.Username, user.PhoneNumber, user.CreatedDateTime, user.Email, user.Name, user.Surname));
+            {
+                var result = new UserInfoMVM(user.Id, user.Username, user.PhoneNumber, user.CreatedDateTime,
+                    user.Email, user.Name, user.Surname);
+
+                result.Roles = new List<RoleThumbailMVM>();
+                foreach (var userRole in user.UserRoles)
+                {
+                    result.Roles.Add(new RoleThumbailMVM(userRole.RoleId, userRole.Role.Name, userRole.Role.Title));
+                }
+                return Ok(result);
+            }
             return NotFound("کاربر مورد نظر یافت نشد.");
         }
 
@@ -148,6 +158,28 @@ namespace WebApi.Areas.Manage.Controllers
                 return BadRequest(deleteResult.Errors);
             }
             return NotFound("کاربر مورد نظر پیدا نشد.");
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<ApiResult<object>> AssignRole([FromRoute] string id, [FromBody] List<string> rolesId,
+            CancellationToken cancellationToken)
+        {
+            var user = await userService.FindByIdAsync(id, withRoles: true, cancellationToken: cancellationToken);
+            if (user != null)
+            {
+                var newRoles = new List<UserRole>();
+
+                foreach (var roleId in rolesId)
+                {
+                    if (!user.UserRoles.Any(userRole => userRole.Role.Name == roleId))
+                    {
+                        newRoles.Add(new UserRole(user.Id, roleId));
+                    }
+                }
+                return Ok();
+            }
+            else
+                return NotFound();
         }
     }
 }

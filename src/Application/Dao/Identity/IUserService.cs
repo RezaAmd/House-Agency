@@ -3,8 +3,6 @@ using Domain.Entities.Identity;
 using Domain.Enums;
 using Mapster;
 using Microsoft.AspNetCore.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Application.Dao
 {
@@ -13,8 +11,10 @@ namespace Application.Dao
         /// <summary>
         /// Find a specific user by id.
         /// </summary>
-        /// <param name="id">user id.</param>
-        Task<User> FindByIdAsync(string id, CancellationToken cancellationToken = new());
+        /// <param name="id">user id to find.</param>
+        /// <param name="withRoles">Include user roles list.</param>
+        /// <param name="withPermissions">Include user permissions list.</param>
+        Task<User?> FindByIdAsync(string id, bool withRoles = false, bool withPermissions = false, CancellationToken cancellationToken = new());
 
         /// <summary>
         /// Create a new user.

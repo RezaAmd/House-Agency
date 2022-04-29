@@ -21,11 +21,20 @@ namespace Application.Dao
         }
         #endregion
 
-        public async Task<User?> FindByIdAsync(string id, CancellationToken cancellationToken = new())
+        public async Task<User?> FindByIdAsync(string id, bool withRoles = false, bool withPermissions = false,
+            CancellationToken cancellationToken = new())
         {
-            return await context.Users
-                .Include(x => x.Permissions)
-                .Where(u => u.Id == id).FirstOrDefaultAsync(cancellationToken);
+            var user = context.Users.Where(u => u.Id == id).AsQueryable();
+
+            if (withRoles)
+                user = user.Include(u => u.UserRoles)
+                    .ThenInclude(ur => ur.Role);
+
+            if (withPermissions)
+                user = user.Include(u => u.Permissions)
+                    .ThenInclude(up => up.Permission);
+
+            return await user.FirstOrDefaultAsync(cancellationToken);
         }
 
         /// <summary>

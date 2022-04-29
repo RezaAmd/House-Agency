@@ -61,5 +61,6 @@ namespace WebApi.Areas.Manage.Models
         public string? Email { get; set; }
         public string? Name { get; set; }
         public string? Surname { get; set; }
+        public List<RoleThumbailMVM> Roles { get; set; }
     }
 }
