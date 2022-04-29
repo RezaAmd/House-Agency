@@ -24,6 +24,12 @@ namespace Infrastructure.Persistence.Context
 
         public virtual DbSet<Region> Regions { get; set; }
 
+        #region Dynamic Form
+        public virtual DbSet<Form> Forms { get; set; }
+        public virtual DbSet<Control> Controls { get; set; }
+        public virtual DbSet<FormControl> FormControl { get; set; }
+        #endregion
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             return base.SaveChangesAsync(cancellationToken);
