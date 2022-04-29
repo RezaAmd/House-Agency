@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Configurations.FluentApi.Identity
+namespace Infrastructure.Persistence.Configurations.FluentApi
 {
     public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
     {
