@@ -161,6 +161,7 @@ namespace WebApi.Areas.Manage.Controllers
         }
 
         [HttpPatch("{id}")]
+        //[Authorize(Roles = "AssignRoleToUser")]
         public async Task<ApiResult<object>> AssignRoles([FromRoute] string id, [FromBody] List<string> rolesId,
             CancellationToken cancellationToken)
         {
@@ -190,6 +191,7 @@ namespace WebApi.Areas.Manage.Controllers
         }
 
         [HttpPatch("{id}")]
+        //[Authorize(Roles = "AssignRoleToUser")]
         public async Task<ApiResult<object>> UnAssignRoles([FromRoute] string id, [FromBody] List<string> rolesId,
             CancellationToken cancellationToken)
         {
