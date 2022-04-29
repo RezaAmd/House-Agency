@@ -165,29 +165,34 @@ namespace WebApi.Areas.Manage.Controllers
         public async Task<ApiResult<object>> AssignRoles([FromRoute] string id, [FromBody] List<string> rolesId,
             CancellationToken cancellationToken)
         {
-            var user = await userService.FindByIdAsync(id, withRoles: true, cancellationToken: cancellationToken);
-            if (user != null)
+            if (rolesId.Count > 0)
             {
-                bool assigned = false;
-                foreach (var roleId in rolesId)
+
+                var user = await userService.FindByIdAsync(id, withRoles: true, cancellationToken: cancellationToken);
+                if (user != null)
                 {
-                    if (!user.UserRoles.Any(userRole => userRole.RoleId == roleId))
+                    bool assigned = false;
+                    foreach (var roleId in rolesId)
                     {
-                        assigned = true;
-                        user.UserRoles.Add(new UserRole(user.Id, roleId));
+                        if (!user.UserRoles.Any(userRole => userRole.RoleId == roleId))
+                        {
+                            assigned = true;
+                            user.UserRoles.Add(new UserRole(user.Id, roleId));
+                        }
                     }
+                    if (assigned)
+                    {
+                        var updateResult = await userService.UpdateAsync(user, cancellationToken);
+                        if (updateResult.Succeeded)
+                            return Ok($"نقش ها با موفقیت به کاربر '{user.Name}' اضافه شدند!");
+                        return BadRequest("افزودن نقش با خطا مواجه شد.");
+                    }
+                    return Ok("هیچ نقشی به کاربر اضافه نشد. شاید نقش ها تکراری بودند!");
                 }
-                if (assigned)
-                {
-                    var updateResult = await userService.UpdateAsync(user, cancellationToken);
-                    if (updateResult.Succeeded)
-                        return Ok($"نقش ها با موفقیت به کاربر '{user.Name}' اضافه شدند!");
-                    return BadRequest("افزودن نقش با خطا مواجه شد.");
-                }
-                return Ok("هیچ نقشی به کاربر اضافه نشد. شاید نقش ها تکراری بودند!");
+                else
+                    return NotFound("کاربر مورد نظر یافت نشد.");
             }
-            else
-                return NotFound("کاربر مورد نظر یافت نشد.");
+            return BadRequest("هیچ نقشی تعیین نشده.");
         }
 
         [HttpPatch("{id}")]
@@ -195,29 +200,33 @@ namespace WebApi.Areas.Manage.Controllers
         public async Task<ApiResult<object>> UnAssignRoles([FromRoute] string id, [FromBody] List<string> rolesId,
             CancellationToken cancellationToken)
         {
-            var user = await userService.FindByIdAsync(id, withRoles: true, cancellationToken: cancellationToken);
-            if (user != null)
+            if (rolesId.Count > 0)
             {
-                bool removedAnyRole = false;
-                foreach (var roleId in rolesId)
+                var user = await userService.FindByIdAsync(id, withRoles: true, cancellationToken: cancellationToken);
+                if (user != null)
                 {
-                    var userRole = user.UserRoles.FirstOrDefault(ur => ur.RoleId == roleId);
-                    if (userRole != null)
+                    bool removedAnyRole = false;
+                    foreach (var roleId in rolesId)
                     {
-                        removedAnyRole = true;
-                        user.UserRoles.Remove(userRole);
+                        var userRole = user.UserRoles.FirstOrDefault(ur => ur.RoleId == roleId);
+                        if (userRole != null)
+                        {
+                            removedAnyRole = true;
+                            user.UserRoles.Remove(userRole);
+                        }
                     }
+                    if (removedAnyRole)
+                    {
+                        var updateResult = await userService.UpdateAsync(user, cancellationToken);
+                        if (updateResult.Succeeded)
+                            return Ok($"نقش ها با موفقیت از کاربر '{user.Name}' حذف شدند.");
+                    }
+                    else
+                        return NotFound("نقش های انتخاب شده، به کاربر مرتبط نیستند!");
                 }
-                if (removedAnyRole)
-                {
-                    var updateResult = await userService.UpdateAsync(user, cancellationToken);
-                    if (updateResult.Succeeded)
-                        return Ok($"نقش ها با موفقیت از کاربر '{user.Name}' حذف شدند.");
-                }
-                else
-                    return NotFound("نقش های انتخاب شده، به کاربر مرتبط نیستند!");
+                return NotFound();
             }
-            return NotFound();
+            return BadRequest("هیچ نقشی تعیین نشده.");
         }
     }
 }
