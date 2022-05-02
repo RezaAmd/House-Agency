@@ -29,5 +29,7 @@ namespace Application.Interfaces.Identity
         /// </summary>
         Task SignOutAsync();
         (Result Status, string Token) GenerateJwtToken(User user, DateTime? expire = default, List<Claim> extraClaims = null);
+
+        IEnumerable<Claim> ReadToken(string token);
     }
 }

@@ -8,5 +8,6 @@ namespace Application.Interfaces.Services
     public interface IJwtService
     {
         (Result Status, string Token) GenerateToken(List<Claim> claims, DateTime? expire = default);
+        IEnumerable<Claim> ReadToken(string token);
     }
 }

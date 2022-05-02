@@ -87,6 +87,11 @@ namespace Application.Services.Identity
             return jwtResult;
         }
 
+        public IEnumerable<Claim> ReadToken(string token)
+        {
+            return jwtService.ReadToken(token);
+        }
+
         /// <summary>
         /// Signs in the specified user.
         /// </summary>

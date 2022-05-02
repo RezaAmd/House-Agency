@@ -31,22 +31,25 @@ namespace WebApi.Areas.Identity.Controllers
         [Route("/[area]/[action]")]
         public async Task<ApiResult<object>> SignIn([FromBody] SignInDto signInParam)
         {
-            var user = await userService.FindByIdentityAsync(signInParam.Username,
-                asNoTracking: false, withRoles: true, withPermissions: true);
-            if (user != null)
-            {
-                var result = new SignInVM();
-                result.User = new UserThumbailDetailVM();
-                result.User.username = user.Username;
-                result.User.name = user.Name;
-                result.User.surname = user.Surname;
-                result.User.roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();
-                #region map user
 
-                #endregion
-                var passwordValidation = userService.CheckPassword(user, signInParam.Password);
-                if (passwordValidation)
+            if (!string.IsNullOrEmpty(signInParam.RefreshToken))
+            {
+                //var claims = signInService.ReadToken(signInParam.RefreshToken);
+                //string userId = claims.FirstOrDefault(x => x.ValueType == ClaimTypes.NameIdentifier).Value;
+
+                var user = await userService.FindByIdentityAsync("admin",
+                    asNoTracking: false, withRoles: true, withPermissions: true);
+                if (user != null)
                 {
+                    var result = new SignInVM();
+                    result.User = new UserThumbailDetailVM();
+                    result.User.username = user.Username;
+                    result.User.name = user.Name;
+                    result.User.surname = user.Surname;
+                    result.User.roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();
+                    #region map user
+
+                    #endregion
                     #region Jwt Token
                     var expireDateTime = DateTime.Now.AddMinutes(30);
                     var JwtBearer = signInService.GenerateJwtToken(user, expireDateTime);
@@ -68,8 +71,56 @@ namespace WebApi.Areas.Identity.Controllers
                         return Ok(result);
                     }
                 }
+
+                return BadRequest();
             }
-            return BadRequest("نام کاربری یا رمز ورود اشتباه است.");
+            // Signin with username and password.
+            else if (!string.IsNullOrEmpty(signInParam.Username) && !string.IsNullOrEmpty(signInParam.Password))
+            {
+                var user = await userService.FindByIdentityAsync(signInParam.Username,
+                asNoTracking: false, withRoles: true, withPermissions: true);
+                if (user != null)
+                {
+                    var result = new SignInVM();
+                    result.User = new UserThumbailDetailVM();
+                    result.User.username = user.Username;
+                    result.User.name = user.Name;
+                    result.User.surname = user.Surname;
+                    result.User.roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();
+                    #region map user
+
+                    #endregion
+                    var passwordValidation = userService.CheckPassword(user, signInParam.Password);
+                    if (passwordValidation)
+                    {
+                        #region Jwt Token
+                        var expireDateTime = DateTime.Now.AddMinutes(30);
+                        var JwtBearer = signInService.GenerateJwtToken(user, expireDateTime);
+                        #endregion
+
+                        #region Refresh Token
+                        var refreshTokenExpireDateTime = DateTime.Now.AddHours(1);
+                        var RefreshJwtBearer = signInService.GenerateJwtToken(user, expireDateTime);
+                        #endregion
+
+                        if (JwtBearer.Status.Succeeded)
+                        {
+                            result.Token = JwtBearer.Token;
+                            result.ExpireDate = expireDateTime.ToString("yyyy/MM/dd HH:mm:ss");
+
+                            result.RefreshToken = RefreshJwtBearer.Token;
+                            result.RefreshTokenExpireDate = refreshTokenExpireDateTime.ToString("yyyy/MM/dd HH:mm:ss");
+
+                            return Ok(result);
+                        }
+                    }
+                }
+                return BadRequest("نام کاربری یا رمز ورود اشتباه است.");
+            }
+            else
+            {
+                return BadRequest("نام کاربری و رمز عبور را وارد نکردید.");
+            }
         }
 
         [HttpGet]
