@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<RepositoryUrl>https://github.com/RezaAmd/Real-Estate</RepositoryUrl>
-		<PackageTags>RealEstate</PackageTags>
+		<PackageTags>HouseAgencyApi, House_Agency_Api</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
