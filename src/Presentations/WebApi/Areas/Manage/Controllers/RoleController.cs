@@ -2,11 +2,14 @@
 using Application.Extentions;
 using Application.Models;
 using Domain.Entities.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Areas.Manage.Models;
 
 namespace WebApi.Areas.Manage.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Area("Manage")]
     [Route("[area]/[controller]/[action]")]
