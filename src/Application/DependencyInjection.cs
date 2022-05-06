@@ -18,17 +18,22 @@ namespace Application
                 .AddTransient<IMapper, Mapper>();
 
             #region DAO Services
-            services.AddScoped<IUserService, UserService>()
+            services.AddScoped(typeof(IBaseDao<,>), typeof(BaseDao<,>))
+                .AddScoped<IUserService, UserService>()
                 .AddScoped<IRoleService, RoleDao>()
                 .AddScoped<IPermissionService, PermissionDao>()
                 .AddScoped<IRegionDao, RegionDao>()
                 .AddScoped<IFormDao, FormDao>()
-                .AddScoped<IControlDao, ControlDao>();
+                .AddScoped<IControlDao, ControlDao>()
+                ;
+
             #endregion
 
             #region Business Services
             services.AddScoped<ISignInService, SignInService>()
-                .AddScoped<IFormService, FormService>();
+                .AddScoped<IFormService, FormService>()
+                .AddScoped<IPossessionService, PossessionService>()
+                ;
             #endregion
 
             return services;
