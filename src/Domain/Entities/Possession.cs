@@ -10,15 +10,18 @@ namespace Domain.Entities
         #region Constructors
         Possession() { }
 
-        public Possession(string title, int meter, PossessionType type, TransactionType transactionType,
+        public Possession(string title, int meter, long regionId, PossessionType type, TransactionType transactionType,
             string createdBy, DateTime? constructionDate)
         {
+            Id = Guid.NewGuid().ToString();
             Title = title;
             Meter = meter;
+            RegionId = regionId;
             Type = type;
             TransactionType = transactionType;
             ConstructionDate = constructionDate;
-            CreatedBy = createdBy;
+
+            CreatedById = createdBy;
             CreatedDateTime = DateTime.Now;
         }
         #endregion
@@ -32,9 +35,9 @@ namespace Domain.Entities
         public TransactionType TransactionType { get; set; }
         public PossessionState State { get; set; }
 
-        [ForeignKey("PublishedBy")]
-        public string CreatedBy { get; set; }
-        public virtual User PublishedBy { get; set; }
+        [ForeignKey("CreatedBy")]
+        public string CreatedById { get; set; }
+        public virtual User CreatedBy { get; set; }
         public DateTime CreatedDateTime { get; set; }
 
 

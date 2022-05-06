@@ -23,6 +23,8 @@ namespace Infrastructure.Persistence.Context
         #endregion
 
         public virtual DbSet<Region> Regions { get; set; }
+        public virtual DbSet<Attachment> Attachments { get; set; }
+        public virtual DbSet<Possession> Possessions { get; set; }
 
         #region Dynamic Form
         public virtual DbSet<Form> Forms { get; set; }

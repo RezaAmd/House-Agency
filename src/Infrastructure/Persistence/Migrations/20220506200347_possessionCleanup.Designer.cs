@@ -4,6 +4,7 @@ using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220506200347_possessionCleanup")]
+    partial class possessionCleanup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,27 +23,6 @@ namespace Infrastructure.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Domain.Entities.Attachment", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("Size")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Attachment");
-                });
 
             modelBuilder.Entity("Domain.Entities.Control", b =>
                 {
@@ -302,82 +283,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("UserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Entities.Possession", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AdviserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AttachmentId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("ConstructionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Meter")
-                        .HasColumnType("int");
-
-                    b.Property<long>("RegionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdviserId");
-
-                    b.HasIndex("AttachmentId");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("RegionId");
-
-                    b.ToTable("Possessions");
-                });
-
-            modelBuilder.Entity("Domain.Entities.PossessionAttachments", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AttachmentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PossessionId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AttachmentId");
-
-                    b.HasIndex("PossessionId");
-
-                    b.ToTable("PossessionAttachments");
-                });
-
             modelBuilder.Entity("Domain.Entities.Region", b =>
                 {
                     b.Property<long>("Id")
@@ -475,52 +380,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Possession", b =>
-                {
-                    b.HasOne("Domain.Entities.Identity.User", "Adviser")
-                        .WithMany()
-                        .HasForeignKey("AdviserId");
-
-                    b.HasOne("Domain.Entities.Attachment", null)
-                        .WithMany("Possessions")
-                        .HasForeignKey("AttachmentId");
-
-                    b.HasOne("Domain.Entities.Identity.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("Domain.Entities.Region", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Adviser");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("Region");
-                });
-
-            modelBuilder.Entity("Domain.Entities.PossessionAttachments", b =>
-                {
-                    b.HasOne("Domain.Entities.Attachment", "Attachment")
-                        .WithMany()
-                        .HasForeignKey("AttachmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Possession", "Possession")
-                        .WithMany("PossessionAttachments")
-                        .HasForeignKey("PossessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Attachment");
-
-                    b.Navigation("Possession");
-                });
-
             modelBuilder.Entity("Domain.Entities.Region", b =>
                 {
                     b.HasOne("Domain.Entities.Region", "Parent")
@@ -528,11 +387,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Attachment", b =>
-                {
-                    b.Navigation("Possessions");
                 });
 
             modelBuilder.Entity("Domain.Entities.Control", b =>
@@ -560,11 +414,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("Permissions");
 
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Possession", b =>
-                {
-                    b.Navigation("PossessionAttachments");
                 });
 
             modelBuilder.Entity("Domain.Entities.Region", b =>
