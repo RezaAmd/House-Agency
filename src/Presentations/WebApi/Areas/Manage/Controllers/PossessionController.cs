@@ -13,7 +13,7 @@ namespace WebApi.Areas.Manage.Controllers
     [ApiController]
     [Area("manage")]
     [Route("[area]/[controller]/[action]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PossessionController : ControllerBase
     {
         #region Dependency Injection
@@ -30,10 +30,10 @@ namespace WebApi.Areas.Manage.Controllers
         public async Task<ApiResult<object>> Entrust([FromBody] PossessionDto model)
         {
             string? userId = User.GetCurrentUserId();
-            if (!string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(userId))
             {
-                var newPossession = new Possession(model.Base.title, model.Base.meter, model.Base.Type, model.Base.TransactionType,
-                    userId, DateTime.Now.AddYears(-5));
+                var newPossession = new Possession(model.Base.title, model.Base.meter, model.Base.RegionId, model.Base.Type, model.Base.TransactionType,
+                    "c46c9f0f-cabf-47c4-ba70-505085f386bd", DateTime.Now.AddYears(-5));
                 var createNewPossessionResult = await possessionService.CreateAsync(newPossession);
                 if (createNewPossessionResult.Succeeded)
                 {

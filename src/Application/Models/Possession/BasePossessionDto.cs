@@ -8,6 +8,7 @@ namespace Application.Models.Possession
         public string? description { get; set; }
         public int meter { get; set; }
         public string ConstructionDate { get; set; } //
+        public long RegionId { get; set; }
         public PossessionType Type { get; set; }
         public TransactionType TransactionType { get; set; }
         public PossessionState State { get; set; }
