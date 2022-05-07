@@ -1,6 +1,5 @@
 using Application;
 using Application.Extentions;
-using Application.Models;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -29,24 +28,26 @@ builder.Services.AddInfrastructure();
 //builder.Services.AddNotifications();
 builder.Services.AddJwtAuthentication();
 builder.Services.AddControllers()
-    .AddNewtonsoftJson(options => {
+    .AddNewtonsoftJson(options =>
+    {
         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
     })
-    .ConfigureApiBehaviorOptions(options => {
-    options.SuppressModelStateInvalidFilter = false;
-    options.InvalidModelStateResponseFactory = context =>
+    .ConfigureApiBehaviorOptions(options =>
     {
-        var problemDetails = new ValidationProblemDetails(context.ModelState)
+        options.SuppressModelStateInvalidFilter = false;
+        options.InvalidModelStateResponseFactory = context =>
         {
-            Title = null,
-            Instance = null
+            var problemDetails = new ValidationProblemDetails(context.ModelState)
+            {
+                Title = null,
+                Instance = null
+            };
+            return new BadRequestObjectResult(problemDetails)
+            {
+                ContentTypes = { "application/problem+json" }
+            };
         };
-        return new BadRequestObjectResult(problemDetails)
-        {
-            ContentTypes = { "application/problem+json" }
-        };
-    };
-});
+    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
