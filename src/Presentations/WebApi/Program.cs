@@ -8,7 +8,6 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(MyAllowSpecificOrigins, policy =>
@@ -59,18 +58,14 @@ if (app.Environment.IsDevelopment())
 {
     //app.UseSwaggerUI();
     //app.UseSwagger();
-
 }
 app.ConfigureExceptionHandler(app.Environment.IsDevelopment());
 
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
-
 app.UseCors(MyAllowSpecificOrigins);
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
