@@ -1,5 +1,5 @@
 ﻿using Application.Models;
-using Application.Models.Possession;
+using Application.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers

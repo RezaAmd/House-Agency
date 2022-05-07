@@ -1,6 +1,6 @@
 ﻿using Application.Extentions;
 using Application.Models;
-using Application.Models.Possession;
+using Application.Models.Dto;
 using Application.Services;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

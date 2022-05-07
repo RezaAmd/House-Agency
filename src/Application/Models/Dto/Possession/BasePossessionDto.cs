@@ -1,6 +1,6 @@
 ﻿using Domain.Enums;
 
-namespace Application.Models.Possession
+namespace Application.Models.Dto
 {
     public class BasePossessionDto
     {
