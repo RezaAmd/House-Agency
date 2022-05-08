@@ -5,8 +5,8 @@ namespace Domain.Enums
     public enum PossessionType
     {
         [Display(Name = "مسکونی")]
-        Residential,
+        Residential = 1,
         [Display(Name = "اداری تجاری")]
-        CommercialOffice
+        CommercialOffice = 2
     }
 }
