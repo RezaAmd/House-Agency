@@ -3,6 +3,7 @@ using Application.Models;
 using Application.Models.Dto;
 using Application.Services;
 using Domain.Entities;
+using Domain.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,89 @@ namespace WebApi.Areas.Manage.Controllers
             possessionService = _possessionService;
         }
         #endregion
+
+        [HttpGet]
+        public async Task<ApiResult<object>> GetPossessionType(PossessionType type)
+        {
+            var selectTypeList = new List<SelectItem>();
+            if (type == PossessionType.Residential)
+            {
+                selectTypeList.Add(new SelectItem()
+                {
+                    Text = "ویلایی/باغ و باغچه",
+                    Value = "1",
+                    IsDisabled = false,
+                    IsSelected = true
+                });
+                selectTypeList.Add(new SelectItem()
+                {
+                    Text = "آپارتمان/برج",
+                    Value = "2",
+                    IsDisabled = false,
+                    IsSelected = false
+                });
+                selectTypeList.Add(new SelectItem()
+                {
+                    Text = "مستغلات",
+                    Value = "3",
+                    IsDisabled = false,
+                    IsSelected = false
+                });
+                selectTypeList.Add(new SelectItem()
+                {
+                    Text = "زمین/کلنگی",
+                    Value = "4",
+                    IsDisabled = false,
+                    IsSelected = false
+                });
+                selectTypeList.Add(new SelectItem()
+                {
+                    Text = "پنت هاوس",
+                    Value = "5",
+                    IsDisabled = false,
+                    IsSelected = false
+                });
+            }
+            else if(type == PossessionType.CommercialOffice)
+            {
+                selectTypeList.Add(new SelectItem()
+                {
+                    Text = "دفتر کار/اتاق اداری و مطب",
+                    Value = "1",
+                    IsDisabled = false,
+                    IsSelected = true
+                });
+                selectTypeList.Add(new SelectItem()
+                {
+                    Text = "انبار/سوله/کارگاه و کارخانه",
+                    Value = "2",
+                    IsDisabled = false,
+                    IsSelected = false
+                });
+                selectTypeList.Add(new SelectItem()
+                {
+                    Text = "کشاورزی",
+                    Value = "3",
+                    IsDisabled = false,
+                    IsSelected = false
+                });
+                selectTypeList.Add(new SelectItem()
+                {
+                    Text = "مستغلات",
+                    Value = "4",
+                    IsDisabled = false,
+                    IsSelected = false
+                });
+                selectTypeList.Add(new SelectItem()
+                {
+                    Text = "زمین/کلنگی",
+                    Value = "5",
+                    IsDisabled = false,
+                    IsSelected = false
+                });
+            }
+            return Ok(selectTypeList);
+        }
 
         [HttpPost]
         [ModelStateValidator]
