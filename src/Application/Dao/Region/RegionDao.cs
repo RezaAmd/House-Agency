@@ -36,15 +36,15 @@ namespace Application.Dao
                 .PaginatedListAsync(page, pageSize, cancellationToken);
         }
 
-        public async Task<List<Region>> GetProvinces(bool withChildren = false,
+        public async Task<List<Region>> GetCitiesAsync(bool withChildren = false,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            var initRegions = context.Regions.Where(r => r.Type == RegionType.Province)
+            var initRegions = context.Regions.Where(r => r.Type == RegionType.City)
                 .OrderBy(r => r.Name).AsQueryable();
 
             if (withChildren)
             {
-                initRegions.Include(r => r.Children);
+                initRegions = initRegions.Include(r => r.Children);
             }
 
             return await initRegions.ToListAsync(cancellationToken);

@@ -1,5 +1,6 @@
 ﻿using Application.Models;
 using Domain.Entities;
+using Domain.Enums;
 using Mapster;
 
 namespace Application.Dao
@@ -13,7 +14,7 @@ namespace Application.Dao
             bool tracking = false, TypeAdapterConfig? config = null,
             CancellationToken cancellationToken = new CancellationToken());
 
-        Task<List<Region>> GetProvinces(bool withChildren = false,
+        Task<List<Region>> GetCitiesAsync(bool withChildren = false,
             CancellationToken cancellationToken = new CancellationToken());
     }
 }
