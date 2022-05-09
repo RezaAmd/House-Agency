@@ -27,6 +27,31 @@ namespace WebApi.Areas.Manage.Controllers
         #endregion
 
         [HttpGet]
+        public async Task<ApiResult<object>> GetPossessionTypes()
+        {
+            var resultList = new List<SelectItem>();
+
+            var maskooni = new SelectItem("مسکونی", "1", true);
+            maskooni.Children.Add(new SelectItem("ویلایی/باغ و باغچه", "1", true));
+            maskooni.Children.Add(new SelectItem("آپارتمان/برج", "2"));
+            maskooni.Children.Add(new SelectItem("مستغلات", "3"));
+            maskooni.Children.Add(new SelectItem("زمین/کلنگی", "4"));
+            maskooni.Children.Add(new SelectItem("پنت هاوس", "5"));
+            resultList.Add(maskooni);
+
+            var edari = new SelectItem("اداری/تجاری", "2");
+            edari.Children.Add(new SelectItem("دفتر کار/اتاق اداری و مطب", "1", true));
+            edari.Children.Add(new SelectItem("انبار/سوله/کارگاه و کارخانه", "2"));
+            edari.Children.Add(new SelectItem("کشاورزی", "3"));
+            edari.Children.Add(new SelectItem("مستغلات", "4"));
+            edari.Children.Add(new SelectItem("زمین/کلنگی", "5"));
+            resultList.Add(edari);
+
+
+            return Ok(resultList);
+        }
+
+        [HttpGet]
         public async Task<ApiResult<object>> GetPossessionType(PossessionType type)
         {
             var selectTypeList = new List<SelectItem>();
