@@ -1,4 +1,6 @@
-﻿namespace Application.Models
+﻿using Application.Extentions;
+
+namespace Application.Models
 {
     public class SelectItem
     {
@@ -8,6 +10,13 @@
         {
             Text = text;
             Value = value;
+            IsSelected = isSelected;
+            IsDisabled = isDisabled;
+        }
+        public SelectItem(Enum enumModel, bool isSelected = false, bool isDisabled = false)
+        {
+            Text = enumModel.ToDisplay();
+            Value = enumModel.ToStringNumber();
             IsSelected = isSelected;
             IsDisabled = isDisabled;
             Children = new List<SelectItem>();
