@@ -25,7 +25,7 @@ namespace WebApi.Areas.Manage.Controllers
         #endregion
 
         [HttpGet]
-        public async Task<ApiResult<object>> GetPossessionTypes()
+        public ApiResult<object> GetPossessionTypes()
         {
             var resultList = new List<SelectItem>();
 
