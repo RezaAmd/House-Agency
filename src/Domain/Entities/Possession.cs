@@ -10,8 +10,8 @@ namespace Domain.Entities
         #region Constructors
         Possession() { }
 
-        public Possession(string title, int meter, long regionId, PossessionType type, TransactionType transactionType,
-            string createdBy, DateTime? constructionDate)
+        public Possession(string title, int meter, long regionId, PossessionType type, PossessionApplicationType applicationType,
+            TransactionType transactionType, string createdBy, DateTime? constructionDate)
         {
             Id = Guid.NewGuid().ToString();
             Title = title;
@@ -20,7 +20,7 @@ namespace Domain.Entities
             Type = type;
             TransactionType = transactionType;
             ConstructionDate = constructionDate;
-
+            ApplicationType = applicationType;
             CreatedById = createdBy;
             CreatedDateTime = DateTime.Now;
         }
@@ -31,7 +31,8 @@ namespace Domain.Entities
         public int Meter { get; set; }
         public DateTime? ConstructionDate { get; set; } //
         public string? Description { get; set; }
-        public PossessionType Type { get; set; }
+        public PossessionApplicationType ApplicationType { get; set; } // نوع کاربری
+        public PossessionType Type { get; set; } // نوع سازه
         public TransactionType TransactionType { get; set; }
         public PossessionState State { get; set; }
 

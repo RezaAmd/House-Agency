@@ -15,9 +15,10 @@ namespace Application.Models.Dto
         public ulong Mortgage { get; set; }
         #endregion
         public string? ConstructionDate { get; set; } // YYYY
-        public PossessionType Type { get; set; }
-        public TransactionType TransactionType { get; set; }
-        public bool IsDraft { get; set; }
+        public PossessionApplicationType ApplicationType { get; set; } // نوع کاربری
+        public PossessionType Type { get; set; } // نوع ملک
+        public TransactionType TransactionType { get; set; } // نوع معامله
+        public bool IsDraft { get; set; } // آیا آگهی پیش نویس شود؟
         [Required(ErrorMessage = "عنوان آگهی ضروری است.")]
         public string title { get; set; }
         public string? description { get; set; }
