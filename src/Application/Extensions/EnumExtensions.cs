@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace Application.Extentions
@@ -37,6 +34,16 @@ namespace Application.Extentions
             var propValue = attribute.GetType().GetProperty(property.ToString()).GetValue(attribute, null);
             Messages.Add(propValue.ToString());
             return Messages;
+        }
+
+        public static int ToInt(this Enum value)
+        {
+            return Convert.ToInt32(value);
+        }
+
+        public static string ToStringNumber(this Enum value)
+        {
+            return Convert.ToInt32(value).ToString();
         }
     }
 
