@@ -33,6 +33,7 @@ namespace Application
             services.AddScoped<ISignInService, SignInService>()
                 .AddScoped<IFormService, FormService>()
                 .AddScoped<IPossessionService, PossessionService>()
+                .AddScoped<IAttachmentService, AttachmentService>()
                 ;
             #endregion
 

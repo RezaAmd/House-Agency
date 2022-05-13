@@ -11,7 +11,7 @@ namespace Domain.Entities
         Possession() { }
 
         public Possession(string title, int meter, long regionId, PossessionType type, PossessionApplicationType applicationType,
-            TransactionType transactionType, string createdBy, DateTime? constructionDate)
+            TransactionType transactionType, string createdBy, DateTime? constructionDate, string? description = null)
         {
             Id = Guid.NewGuid().ToString();
             Title = title;
@@ -23,6 +23,7 @@ namespace Domain.Entities
             ApplicationType = applicationType;
             CreatedById = createdBy;
             CreatedDateTime = DateTime.Now;
+            Description = description;
         }
         #endregion
 

@@ -1,13 +1,16 @@
 using Application;
 using Application.Extentions;
+using AspNetCore.FileServices;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Cross origin
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(MyAllowSpecificOrigins, policy =>
@@ -48,6 +51,7 @@ builder.Services.AddControllers()
             };
         };
     });
+builder.Services.AddFileServices();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -61,6 +65,13 @@ if (app.Environment.IsDevelopment())
     //app.UseSwagger();
 }
 app.ConfigureExceptionHandler(app.Environment.IsDevelopment());
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "Assets")),
+    RequestPath = "/Assets"
+});
 
 app.UseSwagger();
 app.UseSwaggerUI();

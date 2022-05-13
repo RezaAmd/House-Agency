@@ -10,7 +10,7 @@ namespace Application.Models
 
     public class PaginationWithSizeParameter : PaginationParameter
     {
-        [Range(1, 100, ErrorMessage = "حداقل شماره صفحه 1 و حداکثر 1000 می باشد.")]
+        [Range(1, 100, ErrorMessage = "حداقل سایز موارد 1 و حداکثر 100 می باشد.")]
         public int PageSize { get; set; } = 20;
     }
 }

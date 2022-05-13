@@ -14,5 +14,7 @@ namespace Application.Interfaces.Context
         DbSet<Permission> Permissions { get; set; }
 
         DbSet<Region> Regions { get; set; }
+        DbSet<Attachment> Attachments { get; set; }
+        DbSet<Possession> Possessions { get; set; }
     }
 }

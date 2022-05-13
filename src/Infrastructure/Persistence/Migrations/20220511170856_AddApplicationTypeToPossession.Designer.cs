@@ -4,6 +4,7 @@ using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220511170856_AddApplicationTypeToPossession")]
+    partial class AddApplicationTypeToPossession
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,9 +39,6 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Property<long>("Size")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -316,6 +315,9 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("ApplicationType")
                         .HasColumnType("int");
 
+                    b.Property<string>("AttachmentId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("ConstructionDate")
                         .HasColumnType("datetime2");
 
@@ -349,6 +351,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AdviserId");
+
+                    b.HasIndex("AttachmentId");
 
                     b.HasIndex("CreatedById");
 
@@ -482,6 +486,10 @@ namespace Infrastructure.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("AdviserId");
 
+                    b.HasOne("Domain.Entities.Attachment", null)
+                        .WithMany("Possessions")
+                        .HasForeignKey("AttachmentId");
+
                     b.HasOne("Domain.Entities.Identity.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
@@ -502,7 +510,7 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.PossessionAttachments", b =>
                 {
                     b.HasOne("Domain.Entities.Attachment", "Attachment")
-                        .WithMany("Possessions")
+                        .WithMany()
                         .HasForeignKey("AttachmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

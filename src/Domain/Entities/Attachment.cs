@@ -1,9 +1,11 @@
-﻿namespace Domain.Entities
+﻿using Domain.Enums;
+
+namespace Domain.Entities
 {
     public class Attachment
     {
         #region
-        public Attachment(string name, string path, long size)
+        public Attachment(string name, string path, long size, AttachmentType type = AttachmentType.Image)
         {
             Id = Guid.NewGuid().ToString();
             Name = name;
@@ -16,7 +18,8 @@
         public string Name { get; set; }
         public string Path { get; set; }
         public long Size { get; set; }
+        public AttachmentType Type { get; set; }
 
-        public ICollection<Possession> Possessions { get; set; }
+        public ICollection<PossessionAttachments> Possessions { get; set; }
     }
 }

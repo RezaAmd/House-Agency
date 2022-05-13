@@ -1,7 +1,9 @@
 ﻿using Application.Extentions;
 using Application.Models;
 using Application.Models.Dto;
+using Application.Models.ViewModels;
 using Application.Services;
+using AspNetCore.FileServices;
 using Domain.Entities;
 using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +19,67 @@ namespace WebApi.Areas.Manage.Controllers
     {
         #region Dependency Injection
         private readonly IPossessionService possessionService;
+        private readonly IAttachmentService attachmentService;
 
-        public PossessionController(IPossessionService _possessionService)
+        public PossessionController(IPossessionService _possessionService,
+            IAttachmentService _attachmentService)
         {
             possessionService = _possessionService;
+            attachmentService = _attachmentService;
         }
         #endregion
+
+        //[HttpGet]
+        //public async Task<ApiResult<object>> GetAll(string keyword, [FromQuery] PaginationParameter pagination = default,
+        //    CancellationToken cancellationToken = new())
+        //{
+
+        //    return NotFound();
+        //}
+
+        [HttpPost]
+        [ModelStateValidator]
+        public async Task<ApiResult<object>> Entrust([FromBody] PossessionDto model)
+        {
+            string? userId = User.GetCurrentUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                var newPossession = new Possession(model.Base.title, model.Base.meter, model.Base.RegionId,
+                    model.Base.Type, model.Base.ApplicationType, model.Base.TransactionType,
+                    "c46c9f0f-cabf-47c4-ba70-505085f386bd", DateTime.Now.AddYears(-5), model.Base.description);
+
+                var createNewPossessionResult = await possessionService.CreateAsync(newPossession);
+                if (createNewPossessionResult.Succeeded)
+                {
+                    return Ok(newPossession.Id);
+                }
+                else
+                {
+                    return BadRequest(createNewPossessionResult.Errors);
+                }
+            }
+            return Ok(model);
+        }
+
+        [HttpPost]
+        public async Task<ApiResult<object>> UploadImage([FromForm] List<IFormFile> images, CancellationToken cancellationToken = default)
+        {
+            var previewList = new List<PreviewFileVM>();
+
+            string path = "assets/images/possessions/";
+            foreach (var file in images)
+            {
+                string newName = DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss_fffffff");
+                var newAttachment = new Attachment(newName, path, file.Length);
+
+                var result = await attachmentService.Create(newAttachment, file, cancellationToken);
+
+                previewList.Add(new PreviewFileVM(id: newAttachment.Id,
+                    fullPath: "https://realestateapi.techonit.org/" + path + newName + Path.GetExtension(file.FileName),
+                    isSuccess: result.Succeeded));
+            }
+            return Ok(previewList);
+        }
 
         [HttpGet]
         public ApiResult<object> GetPossessionTypes()
@@ -48,113 +105,6 @@ namespace WebApi.Areas.Manage.Controllers
             resultList.Add(edari);
 
             return Ok(resultList);
-        }
-
-        //[HttpGet]
-        //public async Task<ApiResult<object>> GetPossessionType(PossessionType type)
-        //{
-        //    var selectTypeList = new List<SelectItem>();
-        //    if (type == PossessionType.Residential)
-        //    {
-        //        selectTypeList.Add(new SelectItem()
-        //        {
-        //            Text = "ویلایی/باغ و باغچه",
-        //            Value = "1",
-        //            IsDisabled = false,
-        //            IsSelected = true
-        //        });
-        //        selectTypeList.Add(new SelectItem()
-        //        {
-        //            Text = "آپارتمان/برج",
-        //            Value = "2",
-        //            IsDisabled = false,
-        //            IsSelected = false
-        //        });
-        //        selectTypeList.Add(new SelectItem()
-        //        {
-        //            Text = "مستغلات",
-        //            Value = "3",
-        //            IsDisabled = false,
-        //            IsSelected = false
-        //        });
-        //        selectTypeList.Add(new SelectItem()
-        //        {
-        //            Text = "زمین/کلنگی",
-        //            Value = "4",
-        //            IsDisabled = false,
-        //            IsSelected = false
-        //        });
-        //        selectTypeList.Add(new SelectItem()
-        //        {
-        //            Text = "پنت هاوس",
-        //            Value = "5",
-        //            IsDisabled = false,
-        //            IsSelected = false
-        //        });
-        //    }
-        //    else if(type == PossessionType.CommercialOffice)
-        //    {
-        //        selectTypeList.Add(new SelectItem()
-        //        {
-        //            Text = "دفتر کار/اتاق اداری و مطب",
-        //            Value = "1",
-        //            IsDisabled = false,
-        //            IsSelected = true
-        //        });
-        //        selectTypeList.Add(new SelectItem()
-        //        {
-        //            Text = "انبار/سوله/کارگاه و کارخانه",
-        //            Value = "2",
-        //            IsDisabled = false,
-        //            IsSelected = false
-        //        });
-        //        selectTypeList.Add(new SelectItem()
-        //        {
-        //            Text = "کشاورزی",
-        //            Value = "3",
-        //            IsDisabled = false,
-        //            IsSelected = false
-        //        });
-        //        selectTypeList.Add(new SelectItem()
-        //        {
-        //            Text = "مستغلات",
-        //            Value = "4",
-        //            IsDisabled = false,
-        //            IsSelected = false
-        //        });
-        //        selectTypeList.Add(new SelectItem()
-        //        {
-        //            Text = "زمین/کلنگی",
-        //            Value = "5",
-        //            IsDisabled = false,
-        //            IsSelected = false
-        //        });
-        //    }
-        //    return Ok(selectTypeList);
-        //}
-
-        [HttpPost]
-        [ModelStateValidator]
-        public async Task<ApiResult<object>> Entrust([FromBody] PossessionDto model)
-        {
-            string? userId = User.GetCurrentUserId();
-            if (string.IsNullOrEmpty(userId))
-            {
-                var newPossession = new Possession(model.Base.title, model.Base.meter, model.Base.RegionId,
-                    model.Base.Type, model.Base.ApplicationType, model.Base.TransactionType,
-                    "c46c9f0f-cabf-47c4-ba70-505085f386bd", DateTime.Now.AddYears(-5));
-
-                var createNewPossessionResult = await possessionService.CreateAsync(newPossession);
-                if (createNewPossessionResult.Succeeded)
-                {
-                    return Ok(newPossession.Id);
-                }
-                else
-                {
-                    return BadRequest(createNewPossessionResult.Errors);
-                }
-            }
-            return Ok(model);
         }
     }
 }
