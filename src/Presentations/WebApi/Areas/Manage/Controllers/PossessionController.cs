@@ -62,7 +62,7 @@ namespace WebApi.Areas.Manage.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResult<object>> UploadImage([FromForm] List<IFormFile> images, CancellationToken cancellationToken = default)
+        public async Task<ApiResult<object>> UploadAttachments([FromForm] List<IFormFile> images, CancellationToken cancellationToken = default)
         {
             var previewList = new List<PreviewFileVM>();
 
