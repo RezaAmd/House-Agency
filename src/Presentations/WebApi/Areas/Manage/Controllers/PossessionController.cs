@@ -107,11 +107,11 @@ namespace WebApi.Areas.Manage.Controllers
                 var deleteResult = await attachmentService.DeleteAsync(attachment, cancellationToken);
                 if (deleteResult.Succeeded)
                 {
-                    return Ok("فایل مورد نظر با موفقیت حذف شد.");
+                    return Ok("عکس مورد نظر با موفقیت حذف شد.");
                 }
                 return BadRequest(deleteResult.Errors);
             }
-            return NotFound("پیوست مورد نظر پیدا نشد.");
+            return NotFound("عکس مورد نظر پیدا نشد.");
         }
     }
 }
