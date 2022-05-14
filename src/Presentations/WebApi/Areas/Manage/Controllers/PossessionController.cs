@@ -57,7 +57,7 @@ namespace WebApi.Areas.Manage.Controllers
 
         [HttpPost]
         [ModelStateValidator]
-        public async Task<ApiResult<object>> Entrust([FromBody] PossessionDto model)
+        public async Task<ApiResult<object>> Entrust([FromBody] PossessionDto model, CancellationToken cancellationToken = new())
         {
             string? userId = User.GetCurrentUserId();
             if (string.IsNullOrEmpty(userId))
@@ -66,9 +66,57 @@ namespace WebApi.Areas.Manage.Controllers
                     model.Base.Type, model.Base.ApplicationType, model.Base.TransactionType,
                     "c46c9f0f-cabf-47c4-ba70-505085f386bd", DateTime.Now.AddYears(-5), model.Base.description);
 
+                #region Price mapping
+                // اگر خرید یا فروش بود
+                if (model.Base.TransactionType == TransactionType.Buy)
+                {
+                    if (model.Base.Price.HasValue)
+                    {
+                        newPossession.Price = Convert.ToInt64(model.Base.Price.Value);
+                    }
+                    else
+                    {
+                        return BadRequest("وارد کردن قیمت اجباری است.");
+                    }
+                }
+                // اگر رهن یا اجاره بود
+                else if (model.Base.TransactionType == TransactionType.Buy)
+                {
+                    if (model.Base.Rent.HasValue)
+                    {
+                        newPossession.Rent = Convert.ToInt64(model.Base.Rent.Value);
+                    }
+                    else
+                    {
+                        newPossession.Rent = 0;
+                    }
+                    if (model.Base.Mortgage.HasValue)
+                    {
+                        newPossession.Mortgage = Convert.ToInt64(model.Base.Mortgage.Value);
+                    }
+                    else
+                    {
+                        return BadRequest("قیمت آگهی را مشخص کنید.");
+                    }
+                }
+                #endregion
+
                 var createNewPossessionResult = await possessionService.CreateAsync(newPossession);
                 if (createNewPossessionResult.Succeeded)
                 {
+                    // Assign attachment to this possession.
+                    #region Attahments
+                    if (model.Base.AttachmentsId != null && model.Base.AttachmentsId.Count > 0)
+                    {
+                        var attachments = await attachmentService.FindByIdListAsync(model.Base.AttachmentsId, cancellationToken);
+                        if (attachments != null && attachments.Count > 0)
+                        {
+                            newPossession.PossessionAttachments = new List<PossessionAttachment>();
+                            newPossession.PossessionAttachments = attachments.Select(a => new PossessionAttachment(a.Id, newPossession.Id)).ToList();
+                        }
+                    }
+                    #endregion
+
                     return Ok(newPossession.Id);
                 }
                 else
@@ -102,7 +150,7 @@ namespace WebApi.Areas.Manage.Controllers
             CancellationToken cancellationToken = default)
         {
             var attachment = await attachmentService.FindByIdAsync(id, cancellationToken);
-            if(attachment != null)
+            if (attachment != null)
             {
                 var deleteResult = await attachmentService.DeleteAsync(attachment, cancellationToken);
                 if (deleteResult.Succeeded)

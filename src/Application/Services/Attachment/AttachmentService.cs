@@ -3,6 +3,7 @@ using Application.Models;
 using AspNetCore.FileServices;
 using Domain.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
@@ -18,6 +19,14 @@ namespace Application.Services
             fileService = _fileService;
         }
         #endregion
+
+
+        public async Task<List<Attachment>> FindByIdListAsync(List<string> idList, CancellationToken cancellationToken = new())
+        {
+            return await context.Attachments
+                .Where(a => idList.Contains(a.Id))
+                .ToListAsync(cancellationToken);
+        }
 
         public async Task<Attachment?> FindByIdAsync(string id, CancellationToken cancellationToken = new())
         {
