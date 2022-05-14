@@ -6,6 +6,8 @@ namespace Application.Services
 {
     public interface IAttachmentService
     {
-        Task<Result> Create(Attachment attachment, IFormFile file, CancellationToken cancellationToken = new());
+        Task<Attachment?> FindByIdAsync(string id, CancellationToken cancellationToken = new());
+        Task<Result> CreateAsync(Attachment attachment, IFormFile file, CancellationToken cancellationToken = new());
+        Task<Result> DeleteAsync(Attachment attachment, CancellationToken cancellationToken = new());
     }
 }

@@ -29,13 +29,31 @@ namespace WebApi.Areas.Manage.Controllers
         }
         #endregion
 
-        //[HttpGet]
-        //public async Task<ApiResult<object>> GetAll(string keyword, [FromQuery] PaginationParameter pagination = default,
-        //    CancellationToken cancellationToken = new())
-        //{
+        [HttpGet]
+        public ApiResult<object> GetPossessionTypes()
+        {
+            var resultList = new List<SelectItem>();
 
-        //    return NotFound();
-        //}
+            var maskooni = new SelectItem(PossessionApplicationType.Residential, true);
+            maskooni.Children = new List<SelectItem>();
+            maskooni.Children.Add(new SelectItem(PossessionType.Vila_Garden, true));
+            maskooni.Children.Add(new SelectItem(PossessionType.Apartment_Tower));
+            maskooni.Children.Add(new SelectItem(PossessionType.RealEstate));
+            maskooni.Children.Add(new SelectItem(PossessionType.Land_OldHouse));
+            maskooni.Children.Add(new SelectItem(PossessionType.Penthouse));
+            resultList.Add(maskooni);
+
+            var edari = new SelectItem(PossessionApplicationType.CommercialOffice);
+            edari.Children = new List<SelectItem>();
+            edari.Children.Add(new SelectItem(PossessionType.Vila_Garden, true));
+            edari.Children.Add(new SelectItem(PossessionType.Warehouse_Factory_Workshop));
+            edari.Children.Add(new SelectItem(PossessionType.Agriculture));
+            edari.Children.Add(new SelectItem(PossessionType.RealEstate));
+            edari.Children.Add(new SelectItem(PossessionType.Land_OldHouse));
+            resultList.Add(edari);
+
+            return Ok(resultList);
+        }
 
         [HttpPost]
         [ModelStateValidator]
@@ -62,18 +80,16 @@ namespace WebApi.Areas.Manage.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResult<object>> UploadAttachments([FromForm] List<IFormFile> images, CancellationToken cancellationToken = default)
+        public async Task<ApiResult<object>> UploadAttachments([FromForm] List<IFormFile> images,
+            CancellationToken cancellationToken = default)
         {
             var previewList = new List<PreviewFileVM>();
-
             string path = "assets/images/possessions/";
             foreach (var file in images)
             {
                 string newName = DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss_fffffff");
                 var newAttachment = new Attachment(newName, path, file.Length);
-
-                var result = await attachmentService.Create(newAttachment, file, cancellationToken);
-
+                var result = await attachmentService.CreateAsync(newAttachment, file, cancellationToken);
                 previewList.Add(new PreviewFileVM(id: newAttachment.Id,
                     fullPath: "https://realestateapi.techonit.org/" + path + newName + Path.GetExtension(file.FileName),
                     isSuccess: result.Succeeded));
@@ -81,30 +97,21 @@ namespace WebApi.Areas.Manage.Controllers
             return Ok(previewList);
         }
 
-        [HttpGet]
-        public ApiResult<object> GetPossessionTypes()
+        [HttpDelete("{id}")]
+        public async Task<ApiResult<object>> DeleteAttachments([FromRoute] string id,
+            CancellationToken cancellationToken = default)
         {
-            var resultList = new List<SelectItem>();
-
-            var maskooni = new SelectItem(PossessionApplicationType.Residential, true);
-            maskooni.Children = new List<SelectItem>();
-            maskooni.Children.Add(new SelectItem(PossessionType.Vila_Garden, true));
-            maskooni.Children.Add(new SelectItem(PossessionType.Apartment_Tower));
-            maskooni.Children.Add(new SelectItem(PossessionType.RealEstate));
-            maskooni.Children.Add(new SelectItem(PossessionType.Land_OldHouse));
-            maskooni.Children.Add(new SelectItem(PossessionType.Penthouse));
-            resultList.Add(maskooni);
-
-            var edari = new SelectItem(PossessionApplicationType.CommercialOffice);
-            edari.Children = new List<SelectItem>();
-            edari.Children.Add(new SelectItem(PossessionType.Vila_Garden, true));
-            edari.Children.Add(new SelectItem(PossessionType.Warehouse_Factory_Workshop));
-            edari.Children.Add(new SelectItem(PossessionType.Agriculture));
-            edari.Children.Add(new SelectItem(PossessionType.RealEstate));
-            edari.Children.Add(new SelectItem(PossessionType.Land_OldHouse));
-            resultList.Add(edari);
-
-            return Ok(resultList);
+            var attachment = await attachmentService.FindByIdAsync(id, cancellationToken);
+            if(attachment != null)
+            {
+                var deleteResult = await attachmentService.DeleteAsync(attachment, cancellationToken);
+                if (deleteResult.Succeeded)
+                {
+                    return Ok("فایل مورد نظر با موفقیت حذف شد.");
+                }
+                return BadRequest(deleteResult.Errors);
+            }
+            return NotFound("پیوست مورد نظر پیدا نشد.");
         }
     }
 }

@@ -19,16 +19,38 @@ namespace Application.Services
         }
         #endregion
 
-        public async Task<Result> Create(Attachment attachment, IFormFile file, CancellationToken cancellationToken = new())
+        public async Task<Attachment?> FindByIdAsync(string id, CancellationToken cancellationToken = new())
+        {
+            return await context.Attachments.FindAsync(new object[] { id }, cancellationToken);
+        }
+
+        public async Task<Result> CreateAsync(Attachment attachment, IFormFile file, CancellationToken cancellationToken = new())
         {
             await fileService.CopyToPathAsync(file, Path.Combine(Directory.GetCurrentDirectory(), attachment.Path), attachment.Name);
             attachment.Name += Path.GetExtension(file.FileName);
             await context.Attachments.AddAsync(attachment);
-            if(Convert.ToBoolean(await context.SaveChangesAsync(cancellationToken)))
+            if (Convert.ToBoolean(await context.SaveChangesAsync(cancellationToken)))
             {
                 return Result.Success;
             }
             return Result.Failed();
+        }
+
+        public async Task<Result> DeleteAsync(Attachment attachment, CancellationToken cancellationToken = new())
+        {
+            bool deleteFileResult = await fileService
+                .DeleteFromFullPathAsync(Path.Combine(Directory.GetCurrentDirectory(),
+                attachment.Path + attachment.Name), cancellationToken);
+            if (deleteFileResult)
+            {
+                context.Attachments.Remove(attachment);
+                if (Convert.ToBoolean(await context.SaveChangesAsync(cancellationToken)))
+                {
+                    return Result.Success;
+                }
+                return Result.Failed(new List<Error>() { new Error(0, "پیوست مورد نظر حذف نشد.") });
+            }
+            return Result.Failed(new List<Error>() { new Error(1, "پیوست مورد نظر حذف نشد.") });
         }
     }
 }
