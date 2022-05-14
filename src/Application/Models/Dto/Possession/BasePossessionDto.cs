@@ -10,10 +10,11 @@ namespace Application.Models.Dto
         [Required(ErrorMessage = "متراژ سازه در آگهی ضروری است.")]
         public int meter { get; set; }
         #region prices
-        public ulong Price { get; set; }
-        public ulong Rent { get; set; }
-        public ulong Mortgage { get; set; }
+        public ulong? Price { get; set; }
+        public ulong? Rent { get; set; }
+        public ulong? Mortgage { get; set; }
         #endregion
+        public List<string>? AttachmentsId { get; set; }
         public string? ConstructionDate { get; set; } // YYYY
         public PossessionApplicationType ApplicationType { get; set; } // نوع کاربری
         public PossessionType Type { get; set; } // نوع ملک
