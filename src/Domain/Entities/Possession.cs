@@ -32,6 +32,11 @@ namespace Domain.Entities
         public int Meter { get; set; }
         public DateTime? ConstructionDate { get; set; } //
         public string? Description { get; set; }
+        #region Price
+        public long? Price { get; set; }
+        public long? Rent { get; set; }
+        public long? Mortgage { get; set; }
+        #endregion
         public PossessionApplicationType ApplicationType { get; set; } // نوع کاربری
         public PossessionType Type { get; set; } // نوع سازه
         public TransactionType TransactionType { get; set; }
@@ -51,6 +56,6 @@ namespace Domain.Entities
         public long RegionId { get; set; }
         public virtual Region Region { get; set; }
 
-        public virtual ICollection<PossessionAttachments> PossessionAttachments { get; set; }
+        public virtual ICollection<PossessionAttachment> PossessionAttachments { get; set; }
     }
 }

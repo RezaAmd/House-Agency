@@ -20,6 +20,6 @@ namespace Domain.Entities
         public long Size { get; set; }
         public AttachmentType Type { get; set; }
 
-        public ICollection<PossessionAttachments> Possessions { get; set; }
+        public ICollection<PossessionAttachment> Possessions { get; set; }
     }
 }
