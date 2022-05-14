@@ -21,56 +21,56 @@ namespace WebApi.Areas.Manage.Controllers
         #endregion
 
         #region Form
-        [HttpGet]
-        public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword = null, [FromQuery] PaginationParameter? pagination = null, CancellationToken cancellationToken = new())
-        {
+        //[HttpGet]
+        //public async Task<ApiResult<object>> GetAll([FromQuery] string? keyword = null, [FromQuery] PaginationParameter? pagination = null, CancellationToken cancellationToken = new())
+        //{
 
-            return Ok(pagination);
-        }
+        //    return Ok(pagination);
+        //}
 
-        [HttpPost]
-        public async Task<ApiResult<object>> Create([FromBody] CreateFormMDAO model, CancellationToken cancellationToken = new())
-        {
-            return BadRequest();
-        }
+        //[HttpPost]
+        //public async Task<ApiResult<object>> Create([FromBody] CreateFormMDAO model, CancellationToken cancellationToken = new())
+        //{
+        //    return BadRequest();
+        //}
 
-        [HttpDelete("{id}")]
-        public async Task<ApiResult<object>> Delete([FromRoute] string id, CancellationToken cancellationToken = new())
-        {
+        //[HttpDelete("{id}")]
+        //public async Task<ApiResult<object>> Delete([FromRoute] string id, CancellationToken cancellationToken = new())
+        //{
 
-            return NotFound();
-        }
+        //    return NotFound();
+        //}
 
-        [HttpDelete]
-        public async Task<ApiResult<object>> CancelFormControl()
-        {
+        //[HttpDelete]
+        //public async Task<ApiResult<object>> CancelFormControl()
+        //{
 
-            return NotFound();
-        }
+        //    return NotFound();
+        //}
         #endregion
 
         #region Control
-        [HttpGet]
-        public async Task<ApiResult<object>> GetAllControls(string formId, [FromQuery] PaginationParameter? pagination = null, CancellationToken cancellationToken = new())
-        {
-            // TODO: Get all controls / get all form controls.
+        //[HttpGet]
+        //public async Task<ApiResult<object>> GetAllControls(string formId, [FromQuery] PaginationParameter? pagination = null, CancellationToken cancellationToken = new())
+        //{
+        //    // TODO: Get all controls / get all form controls.
 
-            return NotFound();
-        }
+        //    return NotFound();
+        //}
 
-        [HttpPost]
-        public async Task<ApiResult<object>> CreateControl([FromBody] CreateControlMDAO model, CancellationToken cancellationToken = new())
-        {
-            // TODO: create a new control.
-            return BadRequest();
-        }
+        //[HttpPost]
+        //public async Task<ApiResult<object>> CreateControl([FromBody] CreateControlMDAO model, CancellationToken cancellationToken = new())
+        //{
+        //    // TODO: create a new control.
+        //    return BadRequest();
+        //}
 
-        [HttpDelete("{id}")]
-        public async Task<ApiResult<object>> DeleteControl([FromRoute] string id, CancellationToken cancellationToken = new())
-        {
+        //[HttpDelete("{id}")]
+        //public async Task<ApiResult<object>> DeleteControl([FromRoute] string id, CancellationToken cancellationToken = new())
+        //{
 
-            return NotFound();
-        }
+        //    return NotFound();
+        //}
         #endregion
     }
 }

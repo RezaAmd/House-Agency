@@ -13,10 +13,10 @@ namespace WebApi.Controllers
 
         #endregion
 
-        [HttpPost]
-        public async Task<ApiResult<object>> Entrust([FromBody] PossessionDto model)
-        {
-            return Ok(model);
-        }
+        //[HttpPost]
+        //public async Task<ApiResult<object>> Entrust([FromBody] PossessionDto model)
+        //{
+        //    return Ok(model);
+        //}
     }
 }
