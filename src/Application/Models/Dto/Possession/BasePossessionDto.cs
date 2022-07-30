@@ -1,7 +1,7 @@
 ﻿using Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace Application.Models.Dto
+namespace Application.Models.Dto.Possession
 {
     public class BasePossessionDto
     {

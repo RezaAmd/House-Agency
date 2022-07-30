@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Linq;
 
-namespace Application.Extentions
+namespace Application.Extensions
 {
     public class Assert
     {
@@ -24,8 +24,8 @@ namespace Application.Extentions
             where T : class
         {
             if (obj == defaultValue
-                || (obj is string str && string.IsNullOrWhiteSpace(str))
-                || (obj is IEnumerable list && !list.Cast<object>().Any()))
+                || obj is string str && string.IsNullOrWhiteSpace(str)
+                || obj is IEnumerable list && !list.Cast<object>().Any())
             {
                 throw new ArgumentException("Argument is empty : " + message, $"{name} : {typeof(T)}");
             }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 
-namespace Application.Extentions
+namespace Application.Extensions
 {
     public static class ExceptionMiddlewareExtensions
     {

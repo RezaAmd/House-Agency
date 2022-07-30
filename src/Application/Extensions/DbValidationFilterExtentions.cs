@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Data.Entity.Validation;
 
-namespace Application.Extentions
+namespace Application.Extensions
 {
     public static class DbValidationFilterExtentions
     {

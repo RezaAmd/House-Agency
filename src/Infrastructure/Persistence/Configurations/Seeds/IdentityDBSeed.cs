@@ -1,10 +1,4 @@
-﻿using Application.Services.Identity;
-using Domain.Entities.Identity;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Infrastructure.Persistence.Configurations.Seeds
+﻿namespace Infrastructure.Persistence.Configurations.Seeds
 {
     public static class IdentityDBSeed
     {

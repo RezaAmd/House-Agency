@@ -6,6 +6,7 @@ namespace Application.Interfaces.Context
 {
     public interface IDbContext
     {
+        int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
 

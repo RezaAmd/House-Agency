@@ -1,4 +1,4 @@
-﻿using Application.Extentions;
+﻿using Application.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

@@ -1,5 +1,5 @@
 using Application;
-using Application.Extentions;
+using Application.Extensions;
 using AspNetCore.FileServices;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;

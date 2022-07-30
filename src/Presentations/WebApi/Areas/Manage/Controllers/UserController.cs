@@ -1,6 +1,6 @@
-﻿using Application.Dao;
-using Application.Extentions;
-using Application.Models;
+﻿using Application.Models;
+using Application.Repositories.Users;
+using Application.Services.Permissions;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Areas.Manage.Models;
@@ -14,11 +14,11 @@ namespace WebApi.Areas.Manage.Controllers
     public class UserController : ControllerBase
     {
         #region Constructor
-        private readonly IUserService userService;
+        private readonly IUserRepository userService;
         private readonly IPermissionService permissionService;
         private readonly ILogger<UserController> logger;
 
-        public UserController(IUserService _userService,
+        public UserController(IUserRepository _userService,
             IPermissionService _permissionService,
             ILogger<UserController> _logger)
         {

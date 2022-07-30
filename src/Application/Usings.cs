@@ -1,0 +1,14 @@
+﻿global using Application.Repositories;
+global using Application.Repositories.Controls;
+global using Application.Repositories.Forms;
+global using Application.Repositories.Permissions;
+global using Application.Repositories.Regions;
+global using Application.Repositories.Roles;
+global using Application.Repositories.Users;
+global using Application.Services.Attachments;
+global using Application.Services.Forms;
+global using Application.Services.Identities;
+global using Application.Services.Permissions;
+global using Application.Services.Possessions;
+global using Application.Services.Regions;
+global using Domain.Entities;

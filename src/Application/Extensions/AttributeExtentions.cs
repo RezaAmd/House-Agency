@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Application.Extentions
+namespace Application.Extensions
 {
     public class ModelStateValidator : ActionFilterAttribute
     {

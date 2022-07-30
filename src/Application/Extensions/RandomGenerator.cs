@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Application.Extentions
+namespace Application.Extensions
 {
     public static class RandomGenerator
     {
@@ -18,7 +18,7 @@ namespace Application.Extentions
             Random random = new Random();
 
             string chars = "369";
-            if (withLowerCase || (!withLowerCase && !withNumber && !withUpperCase))
+            if (withLowerCase || !withLowerCase && !withNumber && !withUpperCase)
                 chars += "qwertyuiopasdfghjklzxcvbnm";
             if (withNumber)
                 chars += "0123345667899";

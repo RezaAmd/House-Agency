@@ -1,4 +1,4 @@
-﻿using Application.Extentions;
+﻿using Application.Extensions;
 
 namespace Application.Models
 {

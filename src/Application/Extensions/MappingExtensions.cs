@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Extentions
+namespace Application.Extensions
 {
     public static class MappingExtensions
     {

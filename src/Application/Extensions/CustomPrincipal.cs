@@ -1,4 +1,6 @@
-﻿namespace System.Security.Claims
+﻿using System.Security.Claims;
+
+namespace Application.Extensions
 {
     public static class CustomPrincipal
     {
