@@ -1,11 +1,10 @@
-﻿namespace Domain.Enums
+﻿namespace Domain.Enums;
+
+public enum AttachmentType
 {
-    public enum AttachmentType
-    {
-        Image,
-        Video,
-        Voice,
-        Document,
-        Other
-    }
+    Image,
+    Video,
+    Voice,
+    Document,
+    Other
 }

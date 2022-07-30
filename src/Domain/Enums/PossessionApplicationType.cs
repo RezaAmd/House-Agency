@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Enums
+namespace Domain.Enums;
+
+public enum PossessionApplicationType
 {
-    public enum PossessionApplicationType
-    {
-        [Display(Name = "مسکونی")]
-        Residential = 1,
-        [Display(Name = "اداری تجاری")]
-        CommercialOffice = 2
-    }
+    [Display(Name = "مسکونی")]
+    Residential = 1,
+    [Display(Name = "اداری تجاری")]
+    CommercialOffice = 2
 }

@@ -1,8 +1,7 @@
-﻿namespace Domain.Enums
+﻿namespace Domain.Enums;
+
+public enum RelatedPermissionType
 {
-    public enum RelatedPermissionType
-    {
-        General,
-        Bank
-    }
+    General,
+    Bank
 }

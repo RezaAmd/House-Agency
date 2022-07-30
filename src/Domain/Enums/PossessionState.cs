@@ -1,10 +1,9 @@
-﻿namespace Domain.Enums
+﻿namespace Domain.Enums;
+
+public enum PossessionState
 {
-    public enum PossessionState
-    {
-        Pending,
-        draft,
-        Published,
-        Removed
-    }
+    Pending,
+    draft,
+    Published,
+    Removed
 }

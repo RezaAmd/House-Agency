@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Enums
+namespace Domain.Enums;
+
+public enum FormType
 {
-    public enum FormType
-    {
-        [Display(Name = "ساده")]
-        Normal,
-        [Display(Name = "گروه")]
-        FormGroup
-    }
+    [Display(Name = "ساده")]
+    Normal,
+    [Display(Name = "گروه")]
+    FormGroup
 }

@@ -1,11 +1,10 @@
-﻿namespace Domain.Enums
+﻿namespace Domain.Enums;
+
+public enum FieldType
 {
-    public enum FieldType
-    {
-        Text,
-        Number,
-        Price,
-        Select,
-        Checkbox
-    }
+    Text,
+    Number,
+    Price,
+    Select,
+    Checkbox
 }

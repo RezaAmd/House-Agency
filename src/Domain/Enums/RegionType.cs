@@ -1,9 +1,8 @@
-﻿namespace Domain.Enums
+﻿namespace Domain.Enums;
+
+public enum RegionType
 {
-    public enum RegionType
-    {
-        Province,
-        City,
-        neighborhood
-    }
+    Province,
+    City,
+    neighborhood
 }

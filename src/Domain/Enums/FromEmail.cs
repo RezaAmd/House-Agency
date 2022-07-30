@@ -1,9 +1,8 @@
-﻿namespace Domain.Enums
+﻿namespace Domain.Enums;
+
+public enum FromEmail
 {
-    public enum FromEmail
-    {
-        Noreplay,
-        Support,
-        Sell
-    }
+    Noreplay,
+    Support,
+    Sell
 }
