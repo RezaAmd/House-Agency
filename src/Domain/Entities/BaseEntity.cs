@@ -1,6 +1,5 @@
-﻿namespace Domain.Entities
+﻿namespace Domain.Entities;
+
+public class BaseEntity
 {
-    public class BaseEntity
-    {
-    }
 }
